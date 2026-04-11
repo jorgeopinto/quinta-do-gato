@@ -24,7 +24,7 @@ resource "azurerm_subnet_network_security_group_association" "NSG-association-li
 resource "azurerm_network_security_group" "NSG-acess-to-linux-WE" {
   name                = "acess-to-linux-WE"
   location            = var.WE
-  resource_group_name = azurerm_resource_group.qdg-HUB-WE.name
+  resource_group_name = azurerm_resource_group.quinta-do-gato.name
 
   security_rule {
     name                       = "allow-SSH"
