@@ -26,6 +26,7 @@ resource "azurerm_subnet" "qdg-HUB-WE" {
 }
 # Associar NSG to subnet de Linux
 resource "azurerm_subnet_network_security_group_association" "NSG-association-linux-WE" {
+  count                     = length(var.Azure_Subnet_names)
   subnet_id                 = azurerm_subnet.qdg-HUB-WE[count.index].id
   network_security_group_id = azurerm_network_security_group.qdg-HUB-NSG.id
 }
