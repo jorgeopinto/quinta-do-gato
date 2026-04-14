@@ -32,7 +32,6 @@ provider "aws" {
 module "networking" {
   source = "../../../modules/azure/network"
   resource_group_name = "quinta-do-gato_dev"
-  location = "westeurope"
   HUB_VNET = ["10.0.0.0/16"]
   Azure_Subnet_names = [
     "compute-subnet",

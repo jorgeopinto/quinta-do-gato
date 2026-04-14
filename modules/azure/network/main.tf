@@ -2,7 +2,7 @@
 
 resource "azurerm_resource_group" "quinta-do-gato_dev" {
   name     = var.resource_group_name
-  location = var.location
+  location = "west europe"
   #tags = local.common_tags
 }
 
