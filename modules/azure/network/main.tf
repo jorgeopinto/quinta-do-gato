@@ -2,7 +2,7 @@
 
 resource "azurerm_resource_group" "qdg_network_dev" {
   name     = var.resource_group_name
-  location = "west europe"
+  location = var.location
   #tags = local.common_tags
 }
 

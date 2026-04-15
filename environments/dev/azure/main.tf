@@ -15,9 +15,10 @@ provider "azurerm" {
 
 
 
-module "networking" {
+module "network" {
   source              = "../../../modules/azure/network"
   resource_group_name = "QDG_network_dev"
+  location = "west europe"
   HUB_VNET            = ["10.0.0.0/16"]
   Azure_Subnet_names = [
     "compute-subnet",
@@ -34,6 +35,6 @@ module "compute" {
   prefix              = "myapp-dev"
   resource_group_name = "QDG_network_dev"
   vm_size             = "Standard_D2s_v3"
-  subnet_id           = module.networking.subnet_ids[0]
-  admin_username      = "jorge"
+  subnet_id           = module.networking.subnet_id[0]
+  admin_user      = "jorge"
 }
