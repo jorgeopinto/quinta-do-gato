@@ -3,7 +3,7 @@
 resource "azurerm_virtual_network_peering" "hub_to_spoke" {
   name                      = "hub-to-spoke1"
   resource_group_name       = "QDG_network_dev"
-  virtual_network_name      = module.network.vnet_name
+  virtual_network_name      = module.vnet-hub.vnet_name
   remote_virtual_network_id = module.spoke1.vnet_id
   allow_forwarded_traffic   = true
   allow_gateway_transit     = true

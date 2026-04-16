@@ -18,10 +18,10 @@ provider "azurerm" {
 ######################
 
 module "vnet-hub" {
-  source              = "../../../modules/azure/network"
+  source = "../../../modules/azure/network"
   resource_group_name = "QDG_network_dev"
   location = "west europe"
-  HUB_VNET            = ["10.0.0.0/16"]
+  ADDRESS = ["10.0.0.0/16"]
   Azure_Subnet_names = [
     "GatewaySubnet",
     "AzureFirewallSubnet",
@@ -34,10 +34,10 @@ module "vnet-hub" {
   ]
 }
 module "vnet-spoke" {
-  source              = "../../../modules/azure/network"
+  source = "../../../modules/azure/network"
   resource_group_name = "QDG_network_dev"
-  location = "west europe"
-  SPOKE_VNET            = ["10.1.0.0/16"]
+  location = module.vnet-hub.location
+  ADDRESS = ["10.1.0.0/16"]
   Azure_Subnet_names = [
     "compute-subnet",
     "storage-subnet",
@@ -52,8 +52,8 @@ module "vnet-spoke" {
 module "hub_spoke1_peering" {
   source = "../../../modules/azure/network-peering"
 
-  hub_vnet_id   = module.vnet-hub.vnet_id
-  spoke_vnet_id = module.vnet-spoke.vnet_id
+  hub_vnet_id   = module.vnet-hub.vnet_HUB_id
+  spoke_vnet_id = module.vnet-spoke.vnet_SPOKE_id
 }
 
 
@@ -77,7 +77,7 @@ module "compute" {
   source              = "../../../modules/azure/compute"
   count = 1
   resource_group_name = "QDG_compute_dev"
-  prefix              = "Linux-VM-{cont.index+1}"
+  prefix              = "Linux-VM-${count.index + 1}"
   vm_size             = "Standard_D2s_v3"
   subnet_id           = module.vnet-spoke.subnet_id[0]
   admin_user      = "jorge"

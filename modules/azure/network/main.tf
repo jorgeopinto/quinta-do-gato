@@ -13,7 +13,7 @@ resource "azurerm_virtual_network" "qdg-HUB-WE" {
   name                = "HUB-${var.resource_group_name}-VNET"
   location            = azurerm_resource_group.qdg_network_dev.location
   resource_group_name = azurerm_resource_group.qdg_network_dev.name
-  address_space       = var.HUB_VNET
+  address_space       = var.ADDRESS
   #tags                = local.common_tags
 }
 
@@ -21,11 +21,11 @@ resource "azurerm_virtual_network" "qdg-SPOKE-WE" {
   name                = "SPOKE-${var.resource_group_name}-VNET"
   location            = azurerm_resource_group.qdg_network_dev.location
   resource_group_name = azurerm_resource_group.qdg_network_dev.name
-  address_space       = var.SPOKE_VNET
+  address_space       = var.ADDRESS
   #tags                = local.common_tags
 }
 
-resource "azurerm_subnet" "qdg-HUB-WE" {
+resource "azurerm_subnet" "qdg-SUBNETS-WE" {
   count = length(var.Azure_Subnet_names)
   name                 = var.Azure_Subnet_names[count.index]
   resource_group_name  = azurerm_resource_group.qdg_network_dev.name
@@ -35,7 +35,7 @@ resource "azurerm_subnet" "qdg-HUB-WE" {
 # Associar NSG to subnet de Linux
 resource "azurerm_subnet_network_security_group_association" "NSG-association-linux-WE" {
   count                     = length(var.Azure_Subnet_names)
-  subnet_id                 = azurerm_subnet.qdg-HUB-WE[count.index].id
+  subnet_id                 = azurerm_subnet.qdg-SUBNETS-WE[count.index].id
   network_security_group_id = azurerm_network_security_group.qdg-HUB-NSG.id
 }
 
