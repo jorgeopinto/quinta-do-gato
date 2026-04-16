@@ -49,8 +49,13 @@ module "vnet-spoke" {
     "10.1.3.0/24"  #2-kubernets-subnet
   ]
 }
+
+##################################
+#       VNET-PEERINGS            #
+##################################
+
 module "hub_spoke1_peering" {
-  source = "../../../modules/azure/network-peering"
+  source = "../../../modules/azure/network"
 
   hub_vnet_id   = module.vnet-hub.vnet_HUB_id
   spoke_vnet_id = module.vnet-spoke.vnet_SPOKE_id
