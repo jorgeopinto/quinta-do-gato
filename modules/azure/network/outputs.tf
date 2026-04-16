@@ -9,3 +9,7 @@ output "vnet_SPOKE_id" {
 output "subnet_id" {
     value = azurerm_subnet.qdg-SUBNETS-WE[*].id  
 }
+
+output "location" {
+ value = azurerm_virtual_network.qdg-HUB-WE.location 
+}
