@@ -17,6 +17,14 @@ resource "azurerm_virtual_network" "qdg-HUB-WE" {
   #tags                = local.common_tags
 }
 
+resource "azurerm_virtual_network" "qdg-SPOKE-WE" {
+  name                = "SPOKE-${var.resource_group_name}-VNET"
+  location            = azurerm_resource_group.qdg_network_dev.location
+  resource_group_name = azurerm_resource_group.qdg_network_dev.name
+  address_space       = var.SPOKE_VNET
+  #tags                = local.common_tags
+}
+
 resource "azurerm_subnet" "qdg-HUB-WE" {
   count = length(var.Azure_Subnet_names)
   name                 = var.Azure_Subnet_names[count.index]
