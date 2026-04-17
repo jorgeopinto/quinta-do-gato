@@ -21,3 +21,4 @@ variable "resource_group_name" {
     description = "resource Id for Spoke Vnet"
     type = string  
 }
+
