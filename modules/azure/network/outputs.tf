@@ -22,3 +22,8 @@ output "subnet_id" {
 output "location" {
  value = azurerm_virtual_network.qdg-HUB-WE.location 
 }
+
+#########
+output "resource_group_name" {
+ value = azurerm_resource_group.qdg_network_dev.name
+}
