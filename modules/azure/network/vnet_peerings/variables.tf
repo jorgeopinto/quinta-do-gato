@@ -1,18 +1,18 @@
-variable "vnet_HUB_id" {
+variable "HUB_VNET_id" {
     description = "resource Id for HUB Vnet"
     type = string  
 }
-variable "vnet_SPOKE_id" {
+variable "SPOKE_VNET_id" {
     description = "resource Id for Spoke Vnet"
     type = string  
 }
 
-variable "vnet_HUB_name" {
+variable "HUB_VNET_name" {
     description = "resource name for HUB Vnet"
     type = string  
 }
 
-variable "vnet_SPOKE_name" {
+variable "SPOKE_VNET_name" {
     description = "resource Id for Spoke Vnet"
     type = string  
 }
