@@ -1,16 +1,16 @@
 output "vnet_HUB_id" {
- value = azurerm_virtual_network.qdg-HUB-WE.id 
+ value = azurerm_virtual_network.vnet-qdg.id 
 }
 
 output "vnet_SPOKE_id" {
- value = azurerm_virtual_network.qdg-SPOKE-WE.id 
+ value = azurerm_virtual_network.vnet-qdg.id 
 }
 output "vnet_HUB_name" {
- value = azurerm_virtual_network.qdg-HUB-WE.name 
+ value = azurerm_virtual_network.vnet-qdg.name 
 }
 
 output "vnet_SPOKE_name" {
- value = azurerm_virtual_network.qdg-SPOKE-WE.name
+ value = azurerm_virtual_network.vnet-qdg.name
 }
 
 #########
@@ -20,7 +20,7 @@ output "subnet_id" {
 }
 
 output "location" {
- value = azurerm_virtual_network.qdg-HUB-WE.location 
+ value = azurerm_virtual_network.vnet-qdg.location 
 }
 
 #########

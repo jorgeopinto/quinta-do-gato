@@ -25,7 +25,7 @@ resource "azurerm_virtual_network" "qdg-SPOKE-WE" {
   #tags                = local.common_tags
 }
 */
-resource "azurerm_virtual_network" "vnet" {
+resource "azurerm_virtual_network" "vnet-qdg" {
   name                = "${var.vnet_type}-dev-vnet"
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -37,7 +37,7 @@ resource "azurerm_subnet" "qdg-SUBNETS-WE" {
   count = length(var.Azure_Subnet_names)
   name                 = var.Azure_Subnet_names[count.index]
   resource_group_name  = azurerm_resource_group.qdg_network_dev.name
-  virtual_network_name = azurerm_virtual_network.qdg-HUB-WE.name
+  virtual_network_name = azurerm_virtual_network.vnet-qdg.name
   address_prefixes     = [var.Azure_Subnets_prefixes[count.index]]
 }
 # Associar NSG to subnet de Linux
