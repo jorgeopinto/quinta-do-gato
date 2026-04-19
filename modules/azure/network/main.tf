@@ -27,8 +27,8 @@ resource "azurerm_virtual_network" "qdg-SPOKE-WE" {
 */
 resource "azurerm_virtual_network" "vnet-qdg" {
   name                = "${var.vnet_type}-dev-vnet"
-  location            = var.location
-  resource_group_name = var.resource_group_name
+  location            = azurerm_resource_group.qdg_network_dev.location
+  resource_group_name = azurerm_resource_group.qdg_network_dev.name
   address_space       = var.address_space
 }
 
