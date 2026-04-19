@@ -9,13 +9,13 @@ variable "location" {
 }
 
 # Estrutura VNET's
-variable "ADDRESS-HUB" {
+variable "add_hub" {
   description = "VNET HUB Azure"
   type = list(string)
 }
-variable "ADDRESS-SPOKE" {
-  description = "VNET HUB Azure"
-  type = list(string)
+variable "add_spoke" {
+  description = "VNETs SPOKE Azure"
+  type = string
 }
 
 variable "Azure_Subnets_prefixes"{

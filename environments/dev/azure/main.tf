@@ -17,11 +17,12 @@ provider "azurerm" {
 #        VNETS       #
 ######################
 
+
 module "vnet-hub" {
   source = "../../../modules/azure/network"
   resource_group_name = "QDG_network_dev"
   location = "west europe"
-  ADDRESS-HUB = ["10.0.0.0/16"]
+  add_hub = ["10.0.0.0/16"]
   Azure_Subnet_names = [
     "GatewaySubnet",
     "AzureFirewallSubnet",
@@ -33,11 +34,13 @@ module "vnet-hub" {
     "10.0.3.0/24"  #2-NVA
   ]
 }
+
+
 module "vnet-spoke" {
   source = "../../../modules/azure/network"
   resource_group_name = module.vnet-hub.resource_group_name
   location = module.vnet-hub.location
-  ADDRESS-SPOKE = ["10.1.0.0/16"]
+  add_spoke = ["10.1.0.0/16"]
   Azure_Subnet_names = [
     "compute-subnet",
     "storage-subnet",
