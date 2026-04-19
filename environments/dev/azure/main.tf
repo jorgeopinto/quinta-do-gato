@@ -69,12 +69,12 @@ module "hub_spoke1_peering" {
   
   resource_group_name= module.vnet-hub.resource_group_name
 
-  HUB_VNET_id   = module.vnet-hub.vnet_HUB_id
-  HUB_VNET_name = module.vnet-hub.vnet_HUB_name
+  HUB_VNET_id   = module.vnet-hub.vnet_id
+  HUB_VNET_name = module.vnet-hub.vnet_name
   
 
-  SPOKE_VNET_id = module.vnet-spoke.vnet_SPOKE_id
-  SPOKE_VNET_name =module.vnet-spoke.vnet_HUB_name
+  SPOKE_VNET_id = module.vnet-spoke.vnet_id
+  SPOKE_VNET_name =module.vnet-spoke.vnet_name
   
 }
 
@@ -105,3 +105,4 @@ module "compute" {
   admin_user      = "jorge"
   azure_key_pub = var.azure_key_pub
   }
+  

@@ -1,17 +1,12 @@
-output "vnet_HUB_id" {
+output "vnet_id" {
  value = azurerm_virtual_network.vnet-qdg.id 
 }
 
-output "vnet_SPOKE_id" {
- value = azurerm_virtual_network.vnet-qdg.id 
-}
-output "vnet_HUB_name" {
+output "vnet_name" {
  value = azurerm_virtual_network.vnet-qdg.name 
 }
 
-output "vnet_SPOKE_name" {
- value = azurerm_virtual_network.vnet-qdg.name
-}
+
 
 #########
 
