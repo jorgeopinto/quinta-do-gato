@@ -1,24 +1,24 @@
 output "vnet_id" {
- value = azurerm_virtual_network.vnet-qdg.id 
+  description = "ID da Virtual Network"
+  value       = azurerm_virtual_network.vnet.id
 }
 
 output "vnet_name" {
- value = azurerm_virtual_network.vnet-qdg.name 
+  description = "Nome da Virtual Network"
+  value       = azurerm_virtual_network.vnet.name
 }
 
-
-
-#########
-
-output "subnet_id" {
-    value = azurerm_subnet.qdg-SUBNETS-WE[*].id  
+output "vnet_address_space" {
+  description = "Espaço de endereços da VNet"
+  value       = azurerm_virtual_network.vnet.address_space
 }
 
-output "location" {
- value = azurerm_virtual_network.vnet-qdg.location 
+output "subnet_ids" {
+  description = "Mapa de IDs das subnets (nome => id)"
+  value       = { for k, v in azurerm_subnet.vnet : k => v.id }
 }
 
-#########
-output "resource_group_name" {
- value = azurerm_resource_group.qdg_network_dev.name
+output "subnet_names" {
+  description = "Lista dos nomes das subnets"
+  value       = [for s in azurerm_subnet.vnet : s.name]
 }

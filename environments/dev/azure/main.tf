@@ -13,6 +13,34 @@ provider "azurerm" {
   features {}
 }
 
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "rg-JOP-P3"
+    storage_account_name = "jorgepintotstate"
+    container_name       = "remote-state"
+    key                  = "quintadogato/terraform.tfstate"
+  }
+}
+
+# ─────────────────────────────────────────
+# Resource Groups
+# ─────────────────────────────────────────
+
+resource "azurerm_resource_group" "hub" {
+  name     = var.hub_resource_group_name
+  location = var.location
+  tags     = var.common_tags
+}
+/*
+resource "azurerm_resource_group" "spokes" {
+  for_each = var.spokes
+
+  name     = each.value.resource_group_name
+  location = var.location
+  tags     = var.common_tags
+}
+*/
+
 ######################
 #        VNETS       #
 ######################
@@ -20,63 +48,80 @@ provider "azurerm" {
 
 module "vnet-hub" {
   source              = "../../../modules/azure/network"
-  resource_group_name = "QDG_network_dev"
-  location            = "west europe"
 
-  vnet_type    = "hub"
-  address_space = ["10.0.0.0/16"]
+  name = var.hub_vnet_name
+  resource_group_name = azurerm_resource_group.hub.name
+  location            = var.location
+  address_space = [var.hub_address_space]
+  tags = var.common_tags
 
-  Azure_Subnet_names = [
-    "GatewaySubnet",
-    "AzureFirewallSubnet",
-    "NVA"
+  subnets = [
+    {
+      name             = "GatewaySubnet"
+      address_prefixes = [var.hub_gateway_subnet_prefix]
+    },
+    {
+      name             = "AzureFirewallSubnet"
+      address_prefixes = [var.hub_firewall_subnet_prefix]
+    },
+    {
+      name             = "snet-management"
+      address_prefixes = [var.hub_management_subnet_prefix]
+    }
+    {
+      name             = "snet-management"
+      address_prefixes = [var.hub_nva_subnet_prefix]
+    }
   ]
 
-  Azure_Subnets_prefixes = [
-    "10.0.1.0/24",
-    "10.0.2.0/26", # IMPORTANT: /26 for Azure Firewall
-    "10.0.3.0/24"
-  ]
+  depends_on = [azurerm_resource_group.hub]
+
 }
 
-module "vnet-spoke" {
+
+# ─────────────────────────────────────────
+# Spoke VNets (dinâmico via variável)
+# ─────────────────────────────────────────
+
+module "spoke-vnets" {
   source              = "../../../modules/azure/network"
-  resource_group_name = module.vnet-hub.resource_group_name
-  location            = module.vnet-hub.location
-  create_rg = false
-  vnet_type    = "spoke"
-  address_space = ["10.1.0.0/16"]
+  for_each = var.spokes
 
-  Azure_Subnet_names = [
-    "compute-subnet",
-    "storage-subnet",
-    "kubernetes-subnet"
-  ]
+  name                = each.value.vnet_name
+  resource_group_name = azurerm_resource_group.spokes[each.key].name
+  location            = var.location
+  address_space       = [each.value.address_space]
+  tags                = merge(var.common_tags, each.value.tags)
 
-  Azure_Subnets_prefixes = [
-    "10.1.1.0/24",
-    "10.1.2.0/24",
-    "10.1.3.0/24"
-  ]
+  subnets = each.value.subnets
+
+  #depends_on = [azurerm_resource_group.spokes]
 }
 
 ##################################
 #       VNET-PEERINGS            #
 ##################################
 
-module "hub_spoke1_peering" {
+module "hub_spoke_peerings" {
   source = "../../../modules/azure/network/vnet_peerings"
-  
-  resource_group_name= module.vnet-hub.resource_group_name
+  for_each = var.spokes
 
-  HUB_VNET_id   = module.vnet-hub.vnet_id
-  HUB_VNET_name = module.vnet-hub.vnet_name
-  
 
-  SPOKE_VNET_id = module.vnet-spoke.vnet_id
-  SPOKE_VNET_name =module.vnet-spoke.vnet_name
-  
+  hub_vnet_name             = module.hub_vnet.vnet_name
+  hub_vnet_id               = module.hub_vnet.vnet_id
+  hub_resource_group_name   = azurerm_resource_group.hub.name
+
+  spoke_vnet_name           = module.spoke_vnets[each.key].vnet_name
+  spoke_vnet_id             = module.spoke_vnets[each.key].vnet_id
+  spoke_resource_group_name = azurerm_resource_group.spokes[each.key].name
+
+  allow_gateway_transit   = var.enable_gateway_transit
+  use_remote_gateways     = var.enable_gateway_transit
+  allow_forwarded_traffic = true
+
+  depends_on = [module.hub_vnet, module.spoke_vnets]
 }
+  
 
 
 ######################
@@ -94,7 +139,7 @@ locals {
     vm3 = { prefix = "Linux_VM_3", subnet = 0 }
   }
 }
-*/
+
 module "compute" {
   source              = "../../../modules/azure/compute"
   count = 1
@@ -106,3 +151,4 @@ module "compute" {
   azure_key_pub = var.azure_key_pub
   }
   
+  */

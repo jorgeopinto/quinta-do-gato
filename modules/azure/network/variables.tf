@@ -1,36 +1,7 @@
-#Resource group
-variable "create_rg" {
-  type    = bool
-  default = true
-}
-
-
-# Estrutura VNET's
-variable "vnet_type" {
-  description = "Type of VNet: hub or spoke"
+variable "name" {
+  description = "Nome da Virtual Network"
   type        = string
-
-  validation {
-    condition     = contains(["hub", "spoke"], var.vnet_type)
-    error_message = "vnet_type must be either 'hub' or 'spoke'."
-  }
 }
-
-variable "address_space" {
-  description = "Address space for the VNet"
-  type        = list(string)
-}
-
-variable "Azure_Subnets_prefixes"{
-  description =  "Azure Subnets"
-  type = list(string)
-}
-
-variable "Azure_Subnet_names"{
-  description =  "Azure Subnet name"
-  type = list(string)
-}
-
 
 variable "resource_group_name" {
   description = "Nome do Resource Group"
@@ -38,8 +9,33 @@ variable "resource_group_name" {
 }
 
 variable "location" {
-  description = "Região Azure (ex: westeurope)"
+  description = "Localização Azure"
   type        = string
 }
 
+variable "address_space" {
+  description = "Espaço de endereços da VNet"
+  type        = list(string)
+}
+
+variable "subnets" {
+  description = "Lista de subnets a criar"
+  type = list(object({
+    name             = string
+    address_prefixes = list(string)
+  }))
+  default = []
+}
+
+variable "tags" {
+  description = "Tags a aplicar nos recursos"
+  type        = map(string)
+  default     = {}
+}
+
+variable "dns_servers" {
+  description = "Lista de servidores DNS personalizados"
+  type        = list(string)
+  default     = []
+}
 
