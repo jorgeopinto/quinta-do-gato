@@ -27,6 +27,5 @@ jobs:
     - name: Terraform Destroy
       run: |
         terraform init
-        terraform force-unlock -force 7bc86942-212d-ad83-40e1-43fad5262edf
         terraform destroy -auto-approve
       working-directory: environments/dev/azure
