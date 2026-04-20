@@ -46,7 +46,7 @@ resource "azurerm_resource_group" "spokes" {
 ######################
 
 
-module "vnet-hub" {
+module "hub_vnet" {
   source              = "../../../modules/azure/network"
 
   name = var.hub_vnet_name
