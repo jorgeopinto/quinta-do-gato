@@ -43,7 +43,7 @@ module "vnet-spoke" {
   source              = "../../../modules/azure/network"
   resource_group_name = module.vnet-hub.resource_group_name
   location            = module.vnet-hub.location
-
+  create_rg = false
   vnet_type    = "spoke"
   address_space = ["10.1.0.0/16"]
 

@@ -1,3 +1,10 @@
+#Resource group
+variable "create_rg" {
+  type    = bool
+  default = true
+}
+
+
 # Estrutura VNET's
 variable "vnet_type" {
   description = "Type of VNet: hub or spoke"
