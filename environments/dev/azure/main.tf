@@ -69,7 +69,7 @@ module "hub_vnet" {
       address_prefixes = [var.hub_management_subnet_prefix]
     },
     {
-      name             = "snet-management"
+      name             = "snet-nva"
       address_prefixes = [var.hub_nva_subnet_prefix]
     }
   ]

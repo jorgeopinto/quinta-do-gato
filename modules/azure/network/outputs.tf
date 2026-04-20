@@ -15,10 +15,10 @@ output "vnet_address_space" {
 
 output "subnet_ids" {
   description = "Mapa de IDs das subnets (nome => id)"
-  value       = { for k, v in azurerm_subnet.vnet : k => v.id }
+  value       = { for k, v in azurerm_subnet.subnet : k => v.id }
 }
 
 output "subnet_names" {
   description = "Lista dos nomes das subnets"
-  value       = [for s in azurerm_subnet.vnet : s.name]
+  value       = [for s in azurerm_subnet.subnet : s.name]
 }
