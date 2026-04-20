@@ -83,7 +83,7 @@ module "hub_vnet" {
 # Spoke VNets (dinâmico via variável)
 # ─────────────────────────────────────────
 
-module "spoke-vnets" {
+module "spoke_vnets" {
   source              = "../../../modules/azure/network"
   for_each = var.spokes
 
