@@ -37,7 +37,7 @@ variable "allow_gateway_transit" {
 variable "use_remote_gateways" {
   description = "Usar gateways remotos no Spoke"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "allow_forwarded_traffic" {
