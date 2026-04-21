@@ -6,7 +6,7 @@ hub_gateway_subnet_prefix    = "10.0.0.0/26"
 hub_firewall_subnet_prefix   = "10.0.1.0/26"
 hub_management_subnet_prefix = "10.0.2.0/24"
 hub_nva_subnet_prefix= "10.0.3.0/24"
-enable_gateway_transit       = false
+enable_gateway_transit       = true
 
 common_tags = {
   ManagedBy   = "Terraform"
