@@ -32,6 +32,17 @@ variable "spoke_resource_group_name" {
 #peering parameters
 #----------------------------------------
 
+variable "allow_virtual_network_access" {
+  description = "Permite tráfego entre VNets. normalmente true"
+  type        = bool
+  #default     = false
+}
+variable "allow_forwarded_traffic" {
+  description = "ermite tráfego que foi roteado por um appliance (firewall, NVA). Usado quando tens firewalls, Azure Firewall, appliances virtuais. dá igual que seja tru or false se nao tiver NVA."
+  type        = bool
+  #default     = true
+}
+
 variable "allow_gateway_transit" {
   description = "Permite que a VNet local ofereça o seu gateway VPN/ExpressRoute à outra VNet. True do lado do HUB"
   type        = bool
@@ -44,9 +55,5 @@ variable "use_remote_gateways" {
   #default     = false
 }
 
-variable "allow_forwarded_traffic" {
-  description = "Permitir tráfego encaminhado"
-  type        = bool
-  default     = true
-}
+
 
