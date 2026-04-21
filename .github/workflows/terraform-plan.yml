@@ -24,10 +24,6 @@ jobs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: "1.7.0"
-    - name: Force Unlock Terraform State
-      if: ${{ github.event.inputs.force_unlock != '' }}
-      run: terraform force-unlock -force ${{ github.event.inputs.force_unlock }}
-      working-directory: environments/dev/azure
     - name: Terraform Plan
       run: |
         terraform init

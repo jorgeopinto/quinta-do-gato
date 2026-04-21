@@ -75,7 +75,7 @@ spokes = {
       },
       {
         name             = "snet-Kubernets"
-        address_prefixes = ["10.3.2.0/24"]
+        address_prefixes = ["10.3.3.0/24"]
       }
     ]
   }
