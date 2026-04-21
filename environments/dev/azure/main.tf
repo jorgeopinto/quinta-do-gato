@@ -106,18 +106,31 @@ module "hub_spoke_peerings" {
   source = "../../../modules/azure/network/vnet_peerings"
   for_each = var.spokes
 
-
+  #HUB
   hub_vnet_name             = module.hub_vnet.vnet_name
   hub_vnet_id               = module.hub_vnet.vnet_id
   hub_resource_group_name   = azurerm_resource_group.hub.name
 
+  # Hub → Spoke
+  HUB-TO-SPOKE-allow_virtual_network_access = true
+  HUB-TO-SPOKE-allow_forwarded_traffic      = true
+  HUB-TO-SPOKE-allow_gateway_transit        = true
+  HUB-TO-SPOKE-use_remote_gateways          = false
+  
+
+
+  #SPOKE
   spoke_vnet_name           = module.spoke_vnets[each.key].vnet_name
   spoke_vnet_id             = module.spoke_vnets[each.key].vnet_id
   spoke_resource_group_name = azurerm_resource_group.spokes[each.key].name
-/*
-  allow_gateway_transit   = var.enable_gateway_transit
-  allow_forwarded_traffic = true
-*/
+
+  # Spoke → Hub
+  SPOKE-TO-HUB-allow_virtual_network_access = true
+  SPOKE-TO-HUB-allow_forwarded_traffic      = true
+  SPOKE-TO-HUB-allow_gateway_transit        = false
+  SPOKE-TO-HUB-use_remote_gateways          = true
+
+
   depends_on = [module.hub_vnet, module.spoke_vnets]
 }
   
