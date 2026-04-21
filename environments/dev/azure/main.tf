@@ -128,7 +128,7 @@ module "hub_spoke_peerings" {
   SPOKE-TO-HUB-allow_virtual_network_access = true
   SPOKE-TO-HUB-allow_forwarded_traffic      = true
   SPOKE-TO-HUB-allow_gateway_transit        = false
-  SPOKE-TO-HUB-use_remote_gateways          = true
+  SPOKE-TO-HUB-use_remote_gateways          = false
 
 
   depends_on = [module.hub_vnet, module.spoke_vnets]
