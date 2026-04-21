@@ -72,7 +72,7 @@ spokes = {
       {
         name             = "snet-storages"
         address_prefixes = ["10.3.2.0/24"]
-      }
+      },
       {
         name             = "snet-Kubernets"
         address_prefixes = ["10.3.2.0/24"]
