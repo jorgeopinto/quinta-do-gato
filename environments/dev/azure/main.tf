@@ -91,9 +91,9 @@ module "hub_spoke_peerings" {
   for_each = var.spokes
 
   #HUB
-  hub_vnet_name             = module.hub_vnet.vnet_name
-  hub_vnet_id               = module.hub_vnet.vnet_id
-  hub_resource_group_name   = azurerm_resource_group.hub.name
+  hub_vnet_name             = module.hub_vnet[each.key].vnet_name
+  hub_vnet_id               = module.hub_vnet[each.key].vnet_id
+  hub_resource_group_name   = azurerm_resource_group.hub[each.key].name
 
   # Hub → Spoke
   HUB-TO-SPOKE-allow_virtual_network_access = true
@@ -136,26 +136,25 @@ module "hub_spoke_peerings" {
 # ─────────────────────────────────────────
 
 module "hub_nsgs" {
-  source = "../../../modules/azure/network/nsg"
+  source   = "../../../modules/azure/network/nsg"
+  for_each = var.hubs
 
-  resource_group_name = azurerm_resource_group.hub.name
+  resource_group_name = azurerm_resource_group.hubs[each.key].name
   location            = var.location
-  tags                = var.common_tags
+  tags                = merge(var.common_tags, each.value.tags)
 
-  # Filtra subnets do Hub que tenham regras NSG definidas
-  # Nota: GatewaySubnet e AzureFirewallSubnet não suportam NSG — são excluídas aqui
+  # Filtra subnets do Spoke que tenham regras NSG definidas
   subnets = {
-    for s in var.hub_subnets :
+    for s in each.value.subnets :
     s.name => {
-      subnet_id = module.hub_vnet.subnet_ids[s.name]
+      subnet_id = module.hub_vnet[each.key].subnet_ids[s.name]
       rules     = s.nsg_rules
     }
-    if length(s.nsg_rules) > 0 && !contains(["GatewaySubnet", "AzureFirewallSubnet"], s.name)
+    if length(s.nsg_rules) > 0
   }
 
   depends_on = [module.hub_vnet]
 }
-
 # ─────────────────────────────────────────
 # NSGs por Subnet (Spokes)
 # ─────────────────────────────────────────
