@@ -41,9 +41,9 @@ resource "azurerm_resource_group" "spokes" {
 }
 
 
-######################
-#        VNETS       #
-######################
+# ─────────────────────────────────────────
+# HUB VNets (dinâmico via variável)
+# ─────────────────────────────────────────
 
 
 module "hub_vnet" {
@@ -55,7 +55,7 @@ module "hub_vnet" {
   address_space       = [var.hub_address_space]
   tags                = var.common_tags
 
-hub_subnets = var.hub_subnets
+  subnets = var.subnets
 
   depends_on = [azurerm_resource_group.hub]
 }

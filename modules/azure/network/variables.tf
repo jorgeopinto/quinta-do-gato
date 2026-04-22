@@ -27,12 +27,6 @@ variable "subnets" {
   default = []
 }
 
-variable "hub_subnets" {
-  type = map(object({
-    name             = string
-    address_prefixes = list(string)
-  }))
-}
 
 variable "tags" {
   description = "Tags a aplicar nos recursos"

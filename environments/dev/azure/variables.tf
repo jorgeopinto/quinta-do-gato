@@ -13,36 +13,17 @@ variable "location" {
   #default     = "westeurope"
 }
 
-variable "hub_resource_group_name" {
-  description = "Nome do Resource Group do Hub"
-  type        = string
-  #default     = "rg-hub-network"
-}
 
-variable "hub_vnet_name" {
-  description = "Nome da VNet Hub"
-  type        = string
-  #default     = "vnet-hub"
-}
-
-variable "hub_address_space" {
-  description = "Bloco CIDR da VNet Hub"
-  type        = string
-  #default     = "10.0.0.0/16"
-}
-
-
-variable "hub_subnets" {
+variable "hubs" {
+  description = "Mapa de configurações dos Spokes"
   type = map(object({
-    resource_group_name = string
-    vnet_name           = string
-    address_space       = string
+    hub_resource_group_name = string
+    hub_vnet_name           = string
+    hub_address_space       = string
     tags                = map(string)
-
     subnets = list(object({
       name             = string
       address_prefixes = list(string)
-
       nsg_rules = optional(list(object({
         name                       = string
         priority                   = number
