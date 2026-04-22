@@ -31,28 +31,6 @@ variable "hub_address_space" {
   #default     = "10.0.0.0/16"
 }
 
-variable "hub_gateway_subnet_prefix" {
-  description = "Prefixo da GatewaySubnet (obrigatório para VPN/ExpressRoute)"
-  type        = string
-  #default     = "10.0.0.0/26"
-}
-
-variable "hub_firewall_subnet_prefix" {
-  description = "Prefixo da AzureFirewallSubnet"
-  type        = string
-  #default     = "10.0.1.0/26"
-}
-
-variable "hub_management_subnet_prefix" {
-  description = "Prefixo da subnet de gestão"
-  type        = string
-  #default     = "10.0.2.0/24"
-}
-variable "hub_nva_subnet_prefix" {
-  description = "Prefixo da subnet de uma NVA"
-  type        = string
-  #default     = "10.0.3.0/24"
-}
 
 variable "hub_subnets" {
   description = "Subnets do Hub com regras NSG opcionais"
