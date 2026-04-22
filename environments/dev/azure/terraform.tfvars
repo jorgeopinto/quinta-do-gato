@@ -5,7 +5,9 @@ hubs = {
     hub_resource_group_name      = "QDG_network_dev"
     hub_vnet_name                = "vnet-hub"
     hub_address_space            = "10.0.0.0/16"
-
+    tags = {
+      Workload = "app"
+    }
     hub_subnets = [
       {
         name             = "GatewaySubnet"

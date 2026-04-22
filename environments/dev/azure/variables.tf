@@ -21,7 +21,7 @@ variable "hubs" {
     hub_vnet_name           = string
     hub_address_space       = string
     tags                = map(string)
-    subnets = list(object({
+    hub_subnets = list(object({
       name             = string
       address_prefixes = list(string)
       nsg_rules = optional(list(object({
