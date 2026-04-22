@@ -37,3 +37,12 @@ output "peering_ids" {
     }
   }
 }
+output "hub_nsg_ids" {
+  description = "IDs dos NSGs do Hub (nome da subnet => id do NSG)"
+  value       = module.hub_nsgs.nsg_ids
+}
+
+output "spoke_nsg_ids" {
+  description = "IDs dos NSGs por Spoke (spoke => subnet => id do NSG)"
+  value       = { for k, v in module.spoke_nsgs : k => v.nsg_ids }
+}

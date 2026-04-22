@@ -54,12 +54,29 @@ variable "hub_nva_subnet_prefix" {
   #default     = "10.0.3.0/24"
 }
 
+variable "hub_subnets" {
+  description = "Subnets do Hub com regras NSG opcionais"
+  type = list(object({
+    name             = string
+    address_prefixes = list(string)
+    nsg_rules = optional(list(object({
+      name                       = string
+      priority                   = number
+      direction                  = string
+      access                     = string
+      protocol                   = string
+      source_port_range          = string
+      destination_port_range     = string
+      source_address_prefix      = string
+      destination_address_prefix = string
+    })), [])
+  }))
+}
 
 
-
-#─────────────────────────────────────
-#Declarar variaveis a usar para um HUB
-#─────────────────────────────────────
+#───────────────────────────────────────────────
+#Declarar variaveis a usar para um HUB com NSG
+#───────────────────────────────────────────────
 
 variable "spokes" {
   description = "Mapa de configurações dos Spokes"
@@ -71,12 +88,24 @@ variable "spokes" {
     subnets = list(object({
       name             = string
       address_prefixes = list(string)
+      nsg_rules = optional(list(object({
+        name                       = string
+        priority                   = number
+        direction                  = string
+        access                     = string
+        protocol                   = string
+        source_port_range          = string
+        destination_port_range     = string
+        source_address_prefix      = string
+        destination_address_prefix = string
+      })), [])
     }))
   }))
 }
 
+
 #─────────────────────────────────────
-#Declarar variaveis a usar para um HUB
+#Declarar variaveis a usar em tags
 #─────────────────────────────────────
 
 
