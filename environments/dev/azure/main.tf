@@ -55,7 +55,7 @@ module "hub_vnet" {
   address_space       = [var.hub_address_space]
   tags                = var.common_tags
 
-  subnets = var.hub_subnets
+hub_subnets = var.hub_subnets
 
   depends_on = [azurerm_resource_group.hub]
 }

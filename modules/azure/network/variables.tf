@@ -27,11 +27,10 @@ variable "subnets" {
   default = []
 }
 
-variable "HUB_subnets" {
+variable "hub_subnets" {
   type = map(object({
     name             = string
     address_prefixes = list(string)
-    # etc...
   }))
 }
 
