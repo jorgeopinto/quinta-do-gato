@@ -53,10 +53,10 @@ module "hub_vnet" {
   for_each = var.hubs
 
   name                = each.value.hub_vnet_name
-  resource_group_name = azurerm_resource_group.hub[each.key].name
+  resource_group_name = azurerm_resource_group.hubs[each.key].name
   location            = var.location
   address_space       = [each.value.hub_address_space]
-  tags                = var.common_tags
+  tags                = merge(var.common_tags, each.value.tags)
 
   hub_subnets = each.value.hub_subnets
 

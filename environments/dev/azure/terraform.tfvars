@@ -18,7 +18,7 @@ hubs = {
         name             = "AzureFirewallSubnet"
         address_prefixes = ["10.0.1.0/26"]
         nsg_rules        = [] # Não suporta NSG — obrigatório estar vazio
-      }/*,
+      },
       {
         name             = "snet-NVA"
         address_prefixes = ["10.0.2.0/24"]
@@ -48,7 +48,6 @@ hubs = {
         
         ]
       }
-      */
     ] 
   }
 }
@@ -63,9 +62,10 @@ common_tags = {
   Owner       = "Jorge Pinto"
 }
 
+/*
 spokes = {
   # ── Spoke 1: App ──────────────────────────────
-  /*
+  
   spoke1 = {
     hub = "hub1"
     resource_group_name = "rg-spoke-app"
@@ -111,7 +111,6 @@ spokes = {
       }
     ]
   }
-*/
   # ── Spoke 3: compute- storage - kubernets ───────────────────
   spoke3 = {
     hub = "hub1"
@@ -188,4 +187,5 @@ spokes = {
   }
 
 }
+*/
 
