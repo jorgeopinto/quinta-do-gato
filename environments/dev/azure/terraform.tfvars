@@ -46,9 +46,10 @@ hubs = {
             source_address_prefix      = "Internet"
             destination_address_prefix = "*"
           }
-        */
+        
         ]
       }
+      */
     ] 
   }
 }
