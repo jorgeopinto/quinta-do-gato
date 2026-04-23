@@ -8,7 +8,7 @@ hubs = {
     tags = {
       Workload = "app"
     }
-    hub_subnets = [
+    subnets = [
       {
         name             = "GatewaySubnet"
        address_prefixes = ["10.0.0.0/27"]

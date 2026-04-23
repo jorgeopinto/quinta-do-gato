@@ -18,3 +18,5 @@ resource "azurerm_subnet" "subnet" {
 }
 
 
+
+

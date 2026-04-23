@@ -21,7 +21,7 @@ variable "hubs" {
     hub_vnet_name           = string
     hub_address_space       = string
     tags                = map(string)
-    hub_subnets = list(object({
+    subnets = list(object({
       name             = string
       address_prefixes = list(string)
       nsg_rules = optional(list(object({
@@ -43,7 +43,7 @@ variable "hubs" {
 #───────────────────────────────────────────────
 #Declarar variaveis a usar para um HUB com NSG
 #───────────────────────────────────────────────
-
+/*
 variable "spokes" {
   description = "Mapa de configurações dos Spokes"
   type = map(object({
@@ -69,7 +69,7 @@ variable "spokes" {
     }))
   }))
 }
-
+*/
 
 #─────────────────────────────────────
 #Declarar variaveis a usar em tags

@@ -58,7 +58,7 @@ module "hub_vnet" {
   address_space       = [each.value.hub_address_space]
   tags                = merge(var.common_tags, each.value.tags)
 
-  hub_subnets = each.value.hub_subnets
+  subnets = each.value.subnets
 
   depends_on = [azurerm_resource_group.hub]
 }
@@ -146,7 +146,7 @@ module "hub_nsgs" {
 
   # Filtra subnets do hub que tenham regras NSG definidas
   subnets = {
-    for s in each.value.hub_subnets :
+    for s in each.value.subnets :
     s.name => {
       subnet_id = module.hub_vnet[each.key].subnet_ids[s.name]
       rules     = s.nsg_rules
