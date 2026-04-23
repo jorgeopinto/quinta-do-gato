@@ -1,5 +1,17 @@
 location                     = "westeurope"
 
+common_tags = {
+  ManagedBy   = "Terraform"
+  Environment = "dev"
+  Project     = "hub-spoke"
+  Owner       = "Jorge Pinto"
+}
+
+# ─────────────────────────────────────────
+# HUB VNets (dynamic using variables)
+# ─────────────────────────────────────────
+
+
 hubs = {
   hub1 ={
     hub_resource_group_name      = "QDG_network_dev"
@@ -54,14 +66,9 @@ hubs = {
 
 
 
-
-common_tags = {
-  ManagedBy   = "Terraform"
-  Environment = "dev"
-  Project     = "hub-spoke"
-  Owner       = "Jorge Pinto"
-}
-
+# ─────────────────────────────────────────
+# Spoke VNets (dynamic using variables)
+# ─────────────────────────────────────────
 
 spokes = {
   
@@ -114,6 +121,7 @@ spokes = {
   }
   
   # ── Spoke 3: compute- storage - kubernets ───────────────────
+  /*
   spoke3 = {
     hub = "hub1"
     resource_group_name = "rg-spoke-compute"
@@ -165,7 +173,7 @@ spokes = {
     ]
   }
 
-    # ── Spoke 4: Shared Services ───────────────────
+  # ── Spoke 4: Shared Services ───────────────────
   spoke4 = {
     hub = "hub1"
     resource_group_name = "rg-spoke-shared"
@@ -189,5 +197,40 @@ spokes = {
   }
 
 }
+*/
+# ─────────────────────────────────────────────────────
+# Vnet Peerings
+# Static. advertizement routes from a gateway
+# can be controled using a UDR associated to a subnet 
+# enabeling BGP block flag
+# use remote gatewa only can be true if exists a EXR or VPN GW
+# ─────────────────────────────────────────────────────
 
+# ────────VNET_PEERINGS HUB-to-SPOKE ─────────────────────────────────
+ # Hub → Spoke
+  #Permite tráfego entre VNets. normalmente true
+  HUB-TO-SPOKE-allow_virtual_network_access = true
+  
+  #Permite tráfego que foi roteado por um appliance (firewall, NVA). Usado quando tens firewalls, Azure Firewall, appliances virtuais
+  HUB-TO-SPOKE-allow_forwarded_traffic      = true
+  
+  #Permite que a VNet local ofereça o seu gateway VPN/ExpressRoute à outra VNet. True do lado do HUB
+  HUB-TO-SPOKE-allow_gateway_transit        = true
+  
+  #Permite que a VNet local use o gateway da VNet remota. Só pode ser usada de um dos lados como true, clarament do lado oda spokes.
+  HUB-TO-SPOKE-use_remote_gateways          = false
 
+# ────────VNET_PEERINGS HUB-to-SPOKE ─────────────────────────────────
+ # Spoke → Hub
+  #Permite tráfego entre VNets. normalmente true
+  SPOKE-TO-HUB-allow_virtual_network_access = true
+  
+  #Permite tráfego que foi roteado por um appliance (firewall, NVA). Usado quando tens firewalls, Azure Firewall, appliances virtuais
+  SPOKE-TO-HUB-allow_forwarded_traffic      = true
+  
+  #Permite que a VNet local ofereça o seu gateway VPN/ExpressRoute à outra VNet. True do lado do HUB
+  SPOKE-TO-HUB-allow_gateway_transit        = false
+  
+  #Permite que a VNet local use o gateway da VNet remota. Só pode ser usada de um dos lados como true, clarament do lado oda spokes.
+  SPOKE-TO-HUB-use_remote_gateways          = false
+  

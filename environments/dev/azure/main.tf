@@ -83,9 +83,12 @@ module "spoke_vnets" {
   depends_on = [azurerm_resource_group.spokes]
 }
 
-##################################
-#       VNET-PEERINGS            #
-##################################
+# ─────────────────────────────────────────────────────
+# Vnet Peerings
+# Static. advertizement routes from a gateway
+# can be controled using a UDR associated to a subnet
+# ─────────────────────────────────────────────────────
+
 
 module "hub_spoke_peerings" {
   source = "../../../modules/azure/network/vnet_peerings"
@@ -97,17 +100,11 @@ module "hub_spoke_peerings" {
   hub_resource_group_name   = azurerm_resource_group.hub[each.value.hub].name
 
   # Hub → Spoke
-  HUB-TO-SPOKE-allow_virtual_network_access = true
-  #Permite tráfego entre VNets. normalmente true
-
-  HUB-TO-SPOKE-allow_forwarded_traffic      = true
-  #Permite tráfego que foi roteado por um appliance (firewall, NVA). Usado quando tens firewalls, Azure Firewall, appliances virtuais
-
-  HUB-TO-SPOKE-allow_gateway_transit        = true
-  #Permite que a VNet local ofereça o seu gateway VPN/ExpressRoute à outra VNet. True do lado do HUB
-
-  HUB-TO-SPOKE-use_remote_gateways          = false
-  #Permite que a VNet local use o gateway da VNet remota. Só pode ser usada de um dos lados como true, clarament do lado oda spokes.
+  HUB-TO-SPOKE-allow_virtual_network_access = var.HUB-TO-SPOKE-allow_virtual_network_access
+  HUB-TO-SPOKE-allow_forwarded_traffic      = var.HUB-TO-SPOKE-allow_forwarded_traffic
+  HUB-TO-SPOKE-allow_gateway_transit        = var.HUB-TO-SPOKE-allow_allow_gateway_transit
+  HUB-TO-SPOKE-use_remote_gateways          = var.HUB-TO-SPOKE-allow_use_remote_gateways
+  
   
 
 
@@ -117,17 +114,11 @@ module "hub_spoke_peerings" {
   spoke_resource_group_name = azurerm_resource_group.spokes[each.key].name
 
   # Spoke → Hub
-  SPOKE-TO-HUB-allow_virtual_network_access = true
-  #Permite tráfego entre VNets. normalmente true
-
-  SPOKE-TO-HUB-allow_forwarded_traffic      = true
-  #Permite tráfego que foi roteado por um appliance (firewall, NVA). Usado quando tens firewalls, Azure Firewall, appliances virtuais
-
-  SPOKE-TO-HUB-allow_gateway_transit        = false
-  #Permite que a VNet local ofereça o seu gateway VPN/ExpressRoute à outra VNet. True do lado do HUB
+  SPOKE-TO-HUB-allow_virtual_network_access = var.SPOKE-TO-HUB-allow_virtual_network_access
+  SPOKE-TO-HUB-allow_forwarded_traffic      = var.SPOKE-TO-HUB-allow_forwarded_traffic
+  SPOKE-TO-HUB-allow_gateway_transit        = var.HUB-TO-SPOKE-allow_allow_gateway_transit
+  SPOKE-TO-HUB-use_remote_gateways          = var.HUB-TO-SPOKE-allow_use_remote_gateways
   
-  SPOKE-TO-HUB-use_remote_gateways          = false
-  #Permite que a VNet local use o gateway da VNet remota. Só pode ser usada de um dos lados como true, clarament do lado oda spokes.
 
   depends_on = [module.hub_vnet, module.spoke_vnets]
 }

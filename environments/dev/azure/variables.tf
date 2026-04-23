@@ -85,3 +85,41 @@ variable "common_tags" {
     Project     = "hub-spoke"
   }
 }
+
+#─────────────────────────────────────
+#Declarar variaveis a usar em peerings
+#─────────────────────────────────────
+variable "HUB-TO-SPOKE-allow_virtual_network_access" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
+variable "HUB-TO-SPOKE-allow_forwarded_traffic" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
+variable "HUB-TO-SPOKE-allow_allow_gateway_transit" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
+variable "HUB-TO-SPOKE-allow_use_remote_gateways" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
+
+
+variable "SPOKE-TO-HUB-allow_virtual_network_access" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
+variable "SPOKE-TO-HUB-allow_forwarded_traffic" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
+variable "SPOKE-TO-HUB-allow_allow_gateway_transit" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
+variable "SPOKE-TO-HUB-allow_use_remote_gateways" {
+  description = "HUB TO SPOKE -> virtual network access"
+  type        = bool
+}
