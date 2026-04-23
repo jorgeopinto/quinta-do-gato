@@ -43,7 +43,7 @@ variable "hub_to_spoke_allow_forwarded_traffic" {
   #default     = true
 }
 
-variable "hub_to_spoke_allow_gateway_transitt" {
+variable "hub_to_spoke_allow_gateway_transit" {
   description = "Permite que a VNet local ofereça o seu gateway VPN/ExpressRoute à outra VNet. True do lado do HUB"
   type        = bool
   #default     = true
