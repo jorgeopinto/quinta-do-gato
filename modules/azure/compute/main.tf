@@ -1,3 +1,61 @@
+# ─────────────────────────────────────────
+# Network Interface
+# ─────────────────────────────────────────
+
+resource "azurerm_network_interface" "this" {
+  for_each = var.virtual_machines
+
+  name                = "nic-${each.value.name}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  tags                = var.tags
+
+  ip_configuration {
+    name                          = "ipconfig-${each.value.name}"
+    subnet_id                     = each.value.subnet_id
+    private_ip_address_allocation = "Dynamic"
+# por adicionar e adaptar	public_ip_address_id          = azurerm_public_ip.PublicIP-to-linux1.id
+  }
+}
+
+# ─────────────────────────────────────────
+# Linux Virtual Machine
+# ─────────────────────────────────────────
+
+resource "azurerm_linux_virtual_machine" "this" {
+  for_each = var.virtual_machines
+
+  name                  = each.value.name
+  location              = var.location
+  resource_group_name   = var.resource_group_name
+  size                  = each.value.vm_size
+  admin_username        = each.value.admin_username
+  network_interface_ids = [azurerm_network_interface.this[each.key].id]
+  tags                  = var.tags
+
+  admin_ssh_key {
+    username   = each.value.admin_username
+    public_key = each.value.ssh_public_key
+  }
+
+  os_disk {
+    name                 = "osdisk-${each.value.name}"
+    caching              = "ReadWrite"
+    storage_account_type = each.value.os_disk_type
+    disk_size_gb         = each.value.os_disk_size_gb
+  }
+
+  source_image_reference {
+    publisher = each.value.image.publisher
+    offer     = each.value.image.offer
+    sku       = each.value.image.sku
+    version   = each.value.image.version
+  }
+
+  disable_password_authentication = true
+}
+
+/*
 
 resource "azurerm_resource_group" "qdg_compute_dev" {
   name     = var.resource_group_name
@@ -54,3 +112,4 @@ resource "azurerm_linux_virtual_machine" "main" {
     version   = "latest"
   }
  }
+ */

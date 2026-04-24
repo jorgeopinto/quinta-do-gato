@@ -1,8 +1,3 @@
-variable "azure_key_pub" {
-  description = "chave public para maquina Azure"
-  type        = string
-}
-
 #─────────────────────────────────────
 #Declarar variaveis a usar para um HUB
 #─────────────────────────────────────
@@ -122,4 +117,58 @@ variable "spoke_to_hub_allow_gateway_transit" {
 variable "spoke_to_hub_use_remote_gateways" {
   description = "HUB TO SPOKE  use remote gateways"
   type        = bool
+}
+
+# ─────────────────────────────────────────
+# declarar variaveis a usar para compute (criar VMS)
+# ─────────────────────────────────────────
+variable "azure_key_pub" {
+  description = "chave public para maquina Azure"
+  type        = string
+}
+
+variable "ssh_public_key" {
+  description = "Chave SSH pública para acesso às VMs"
+  type        = string
+  sensitive   = true
+}
+
+variable "hub_virtual_machines" {
+  description = "Mapa de VMs a criar no Hub, por hub key"
+  type = map(map(object({
+    name            = string
+    count           = optional(number, 1)
+    vm_size         = string
+    admin_username  = string
+    subnet_name     = string
+    os_disk_type    = optional(string, "Standard_LRS")
+    os_disk_size_gb = optional(number, 30)
+    image = optional(object({
+      publisher = string
+      offer     = string
+      sku       = string
+      version   = string
+    }), null)
+  })))
+  default = {}
+}
+
+variable "spoke_virtual_machines" {
+  description = "Mapa de VMs a criar nos Spokes, por spoke key"
+  type = map(map(object({
+    name            = string
+    count           = optional(number, 1)
+    vm_size         = string
+    admin_username  = string
+    subnet_name     = string
+    os_disk_type    = optional(string, "Standard_LRS")
+    os_disk_size_gb = optional(number, 30)
+    image = optional(object({
+      publisher = string
+      offer     = string
+      sku       = string
+      version   = string
+    }), null)
+  })))
+  default = {}
 }

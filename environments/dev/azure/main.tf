@@ -207,3 +207,102 @@ module "compute" {
   }
   
   */
+  # ─────────────────────────────────────────
+# Locals: preparar VMs Hub com subnet_id resolvido
+# ─────────────────────────────────────────
+
+locals {
+  # Flatten das VMs de Hub com suporte a count
+  # Expande cada definição em N entradas: "hub_key|vm_key-001", "hub_key|vm_key-002", ...
+  hub_vms_flat = {
+    for pair in flatten([
+      for hub_key, vms in var.hub_virtual_machines : [
+        for vm_key, vm in vms : [
+          for i in range(vm.count) : {
+            key     = vm.count == 1 ? "${hub_key}|${vm_key}" : "${hub_key}|${vm_key}-${format("%03d", i + 1)}"
+            hub_key = hub_key
+            vm_key  = vm_key
+            vm = merge(vm, {
+              name = vm.count == 1 ? vm.name : "${vm.name}-${format("%03d", i + 1)}"
+            })
+          }
+        ]
+      ]
+    ]) : pair.key => pair
+  }
+
+  # Flatten das VMs de Spoke com suporte a count
+  # Expande cada definição em N entradas: "spoke_key|vm_key-001", "spoke_key|vm_key-002", ...
+  spoke_vms_flat = {
+    for pair in flatten([
+      for spoke_key, vms in var.spoke_virtual_machines : [
+        for vm_key, vm in vms : [
+          for i in range(vm.count) : {        # ← expande pelo count
+            key       = "${spoke_key}|${vm_key}-${format("%03d", i + 1)}"
+            spoke_key = spoke_key
+            vm_key    = vm_key
+            vm        = merge(vm, {
+              name = "${vm.name}-${format("%03d", i + 1)}"   # vm-spoke2-app-001, 002...
+            })
+          }
+        ]
+      ]
+    ]) : pair.key => pair
+  }
+}
+
+# ─────────────────────────────────────────
+# VMs no Hub
+# ─────────────────────────────────────────
+
+module "hub_vms" {
+  source   = "../../../modules/azure/compute"
+  for_each = local.hub_vms_flat
+
+  resource_group_name = azurerm_resource_group.hub[each.value.hub_key].name
+  location            = var.location
+  tags                = merge(var.common_tags, var.hubs[each.value.hub_key].tags)
+
+  virtual_machines = {
+    (each.value.vm_key) = {
+      name            = each.value.vm.name
+      vm_size         = each.value.vm.vm_size
+      admin_username  = each.value.vm.admin_username
+      ssh_public_key  = var.ssh_public_key
+      subnet_id       = module.hub_vnet[each.value.hub_key].subnet_ids[each.value.vm.subnet_name]
+      os_disk_type    = each.value.vm.os_disk_type
+      os_disk_size_gb = each.value.vm.os_disk_size_gb
+      image           = each.value.vm.image
+    }
+  }
+
+  depends_on = [module.hub_vnet]
+}
+
+# ─────────────────────────────────────────
+# VMs nos Spokes
+# ─────────────────────────────────────────
+
+module "spoke_vms" {
+  source   = "../../../modules/azure/compute"
+  for_each = local.spoke_vms_flat
+
+  resource_group_name = azurerm_resource_group.spokes[each.value.spoke_key].name
+  location            = var.location
+  tags                = merge(var.common_tags, var.spokes[each.value.spoke_key].tags)
+
+  virtual_machines = {
+    (each.value.vm_key) = {
+      name            = each.value.vm.name
+      vm_size         = each.value.vm.vm_size
+      admin_username  = each.value.vm.admin_username
+      ssh_public_key  = var.ssh_public_key
+      subnet_id       = module.spoke_vnets[each.value.spoke_key].subnet_ids[each.value.vm.subnet_name]
+      os_disk_type    = each.value.vm.os_disk_type
+      os_disk_size_gb = each.value.vm.os_disk_size_gb
+      image           = each.value.vm.image
+    }
+  }
+
+  depends_on = [module.spoke_vnets]
+}

@@ -1,4 +1,48 @@
 variable "resource_group_name" {
+  description = "Nome do Resource Group onde as VMs serão criadas"
+  type        = string
+}
+
+variable "location" {
+  description = "Região Azure"
+  type        = string
+}
+
+variable "tags" {
+  description = "Tags a aplicar nos recursos"
+  type        = map(string)
+  default     = {}
+}
+
+variable "virtual_machines" {
+  description = "Mapa de definições de VMs Linux"
+  type = map(object({
+    name           = string
+    vm_size        = string
+    admin_username = string
+    ssh_public_key = string
+    subnet_id      = string
+    os_disk_type   = optional(string, "Standard_LRS")
+    os_disk_size_gb = optional(number, 30)
+    image = optional(object({
+      publisher = string
+      offer     = string
+      sku       = string
+      version   = string
+    }), {
+      publisher = "Canonical"
+      offer     = "ubuntu-24_04-lts"
+      sku       = "server"
+      version   = "latest"
+    })
+  }))
+  default = {}
+}
+
+
+
+/*
+variable "resource_group_name" {
   description = "Nome do Resource Group"
   type        = string
 }
@@ -27,3 +71,4 @@ variable "azure_key_pub" {
   type        = string
 
 }
+*/
