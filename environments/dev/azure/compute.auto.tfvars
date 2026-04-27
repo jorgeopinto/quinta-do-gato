@@ -18,7 +18,7 @@ hub_virtual_machines = {
       count          = 1
       vm_size        = "Standard_B2s"
       admin_username = "jorge"
-      subnet_name    = "snet-management"   # nome exato do subnet definido nos hubs
+      subnet_name    = "snet-NVA"   # nome exato do subnet definido nos hubs
       os_disk_type   = "Standard_LRS"
       os_disk_size_gb = 30
       # image é opcional; sem ele usa Ubuntu 24.04 LTS por defeito
