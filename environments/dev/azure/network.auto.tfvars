@@ -133,12 +133,12 @@ spokes = {
     }
     subnets = [
       {
-        name             = "snet-frontend"
+        name             = "snet-app"
         address_prefixes = ["10.100.1.0/24"]
         nsg_rules        = []
       },
       {
-        name             = "snet-backend"
+        name             = "snet-data"
         address_prefixes = ["10.100.2.0/24"]
         nsg_rules        = []
       }

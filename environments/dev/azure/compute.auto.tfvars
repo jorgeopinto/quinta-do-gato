@@ -61,13 +61,13 @@ spoke_virtual_machines = {
     }
   }
 
-  spoke2 = {
+  spoke3 = {
     vm-app = {
       name           = "vm-spoke2-app"
       count          = 1 #a quantidade de vms que quero aqui criar
       vm_size        = "Standard_B2s"
       admin_username = "jorge"
-      subnet_name    = "snet-app"
+      subnet_name    = "snet-compute"
       os_disk_type   = "Standard_LRS"
       os_disk_size_gb = 30
     }
