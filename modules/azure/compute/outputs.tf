@@ -15,7 +15,7 @@ output "vm_private_ips" {
 
 output "vm_public_ip" {
   description = "Ip da maquina virtual de azure: "
-  value       = { for k, v in azurerm_linux_virtual_machine.vm.public_ip_address : k => v.id }
+  value       = { for k, v in azurerm_linux_virtual_machine.vm : k => v.public_ip_address }
 }
 
 output "nic_ids" {
