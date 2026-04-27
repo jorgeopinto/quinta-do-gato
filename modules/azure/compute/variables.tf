@@ -38,7 +38,15 @@ variable "virtual_machines" {
   }))
   default = {}
 }
+variable "admin_user"{
+  description = "Username Admin for machines"
+  type = string
+}
+variable "azure_key_pub" {
+  description = "chave public para maquina Azure"
+  type        = string
 
+}
 
 
 /*
