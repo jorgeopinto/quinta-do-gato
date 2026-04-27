@@ -122,6 +122,13 @@ variable "spoke_to_hub_use_remote_gateways" {
 # ─────────────────────────────────────────
 # declarar variaveis a usar para compute (criar VMS)
 # ─────────────────────────────────────────
+
+variable "admin_username" {
+  description = "Username a usar nas VMS"
+  type        = string
+}
+
+
 variable "azure_key_pub" {
   description = "chave public para maquina Azure"
   type        = string
