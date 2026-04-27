@@ -1,6 +1,6 @@
 # Linux Machine Standard_D2s_v3: 
 resource "azurerm_public_ip" "publicIP" {
-for_each = { for vm in var.virtual_machines : vm.name => vm }
+for_each = var.virtual_machines
 
   name                = "PIP-${each.value.name}"
   resource_group_name = var.resource_group_name
