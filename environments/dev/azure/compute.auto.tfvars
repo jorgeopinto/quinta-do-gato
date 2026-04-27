@@ -53,9 +53,9 @@ spoke_virtual_machines = {
       os_disk_size_gb = 128
       # Exemplo com imagem personalizada (ex: Debian)
       image = {
-        publisher = "Debian"
-        offer     = "debian-12"
-        sku       = "12"
+        publisher = "Canonical"
+        offer     = "ubuntu-24_04-lts"
+        sku       = "server"
         version   = "latest"
       }
     }
