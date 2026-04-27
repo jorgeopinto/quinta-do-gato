@@ -1,8 +1,17 @@
+# Linux Machine Standard_D2s_v3: 
+resource "azurerm_public_ip" "publicIP" {
+  name                = "PIP-${each.value.name}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  allocation_method   = "Static"
+
+}
+
 # ─────────────────────────────────────────
 # Network Interface
 # ─────────────────────────────────────────
 
-resource "azurerm_network_interface" "this" {
+resource "azurerm_network_interface" "interface" {
   for_each = var.virtual_machines
 
   name                = "nic-${each.value.name}"
@@ -14,7 +23,7 @@ resource "azurerm_network_interface" "this" {
     name                          = "ipconfig-${each.value.name}"
     subnet_id                     = each.value.subnet_id
     private_ip_address_allocation = "Dynamic"
-# por adicionar e adaptar	public_ip_address_id          = azurerm_public_ip.PublicIP-to-linux1.id
+    public_ip_address_id          = azurerm_public_ip.PublicIP.id
   }
 }
 
@@ -22,7 +31,7 @@ resource "azurerm_network_interface" "this" {
 # Linux Virtual Machine
 # ─────────────────────────────────────────
 
-resource "azurerm_linux_virtual_machine" "this" {
+resource "azurerm_linux_virtual_machine" "vm" {
   for_each = var.virtual_machines
 
   name                  = each.value.name
@@ -30,7 +39,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   resource_group_name   = var.resource_group_name
   size                  = each.value.vm_size
   admin_username        = each.value.admin_username
-  network_interface_ids = [azurerm_network_interface.this[each.key].id]
+  network_interface_ids = [azurerm_network_interface.interface[each.key].id]
   tags                  = var.tags
 
   admin_ssh_key {
@@ -54,6 +63,7 @@ resource "azurerm_linux_virtual_machine" "this" {
 
   disable_password_authentication = true
 }
+
 
 /*
 
