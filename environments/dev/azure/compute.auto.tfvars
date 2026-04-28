@@ -13,14 +13,14 @@ admin_username = "jorge"
 hub_virtual_machines = {
   # "hub1" deve corresponder à key do teu map `hubs`
   hub1 = {
-    vm-mgmt = {
+    "vm-mgmt" = {
       name           = "vm-hub1-mgmt"
       count          = 1
       vm_size        = "Standard_B2s"
       subnet_name    = "snet-NVA"   # nome exato do subnet definido nos hubs
       os_disk_type   = "Standard_LRS"
       os_disk_size_gb = 30
-      # image é opcional; sem ele usa Ubuntu 24.04 LTS por defeito
+      # image é opcional; não existindo usa Ubuntu 24.04 LTS por defeito declarado nas variaveis do modulo
     }
   }
 }
@@ -33,7 +33,7 @@ hub_virtual_machines = {
 spoke_virtual_machines = {
   # "spoke1" deve corresponder à key do teu map `spokes`
   spoke1 = {
-    vm-app = {
+    "vm-app" = {
       name           = "vm-spoke1-app"
       count          = 1
       vm_size        = "Standard_D2s_v3"
@@ -41,7 +41,7 @@ spoke_virtual_machines = {
       os_disk_type   = "Premium_LRS"
       os_disk_size_gb = 64
     }
-    vm-db = {
+    "vm-db" = {
       name           = "vm-spoke1-db"
       count = 1
       vm_size        = "Standard_D4s_v3"
@@ -59,7 +59,7 @@ spoke_virtual_machines = {
   }
 
   spoke3 = {
-    vm-app = {
+    "vm-app" = {
       name           = "vm-spoke2-app"
       count          = 1 #a quantidade de vms que quero aqui criar
       vm_size        = "Standard_B2s"
