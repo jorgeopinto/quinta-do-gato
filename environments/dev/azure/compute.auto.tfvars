@@ -31,7 +31,7 @@ hub_virtual_machines = {
 # VMs nos SPOKES
 # Estrutura: spoke_key → vm_key → definição
 # ─────────────────────────────────────────
-
+/*
 spoke_virtual_machines = {
   # "spoke1" deve corresponder à key do teu map `spokes`
   spoke1 = {
@@ -80,3 +80,4 @@ spoke_virtual_machines = {
     }
   }
 }
+*/

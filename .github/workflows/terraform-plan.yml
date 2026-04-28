@@ -30,3 +30,10 @@ jobs:
         terraform validate
         terraform plan
       working-directory: environments/dev/azure
+    - name: Debug SSH key
+      env:
+        TF_VAR_AZURE_KEY_PUB: ${{ secrets.TF_VAR_AZURE_KEY_PUB }}
+      run: |
+        echo "Length: ${#TF_VAR_AZURE_KEY_PUB}"
+        echo "$TF_VAR_AZURE_KEY_PUB" | ssh-keygen -l -f -
+  
