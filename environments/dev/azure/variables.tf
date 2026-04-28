@@ -122,7 +122,7 @@ variable "spoke_to_hub_use_remote_gateways" {
 # ─────────────────────────────────────────
 # declarar variaveis a usar para compute (criar VMS)
 # ─────────────────────────────────────────
-
+/*
 variable "admin_username" {
   description = "Username a usar nas VMS"
   type        = string
@@ -133,6 +133,7 @@ variable "ssh_public_key" {
   type        = string
   sensitive   = true
 }
+*/
 
 variable "hub_virtual_machines" {
   description = "Mapa de VMs a criar no Hub, por hub key"
@@ -140,7 +141,6 @@ variable "hub_virtual_machines" {
     name            = string
     count           = optional(number, 1)
     vm_size         = string
-    admin_username  = string
     subnet_name     = string
     os_disk_type    = optional(string, "Standard_LRS")
     os_disk_size_gb = optional(number, 30)
@@ -150,6 +150,8 @@ variable "hub_virtual_machines" {
       sku       = string
       version   = string
     }), null)
+    admin_username  = string
+    ssh_public_key  = string
   })))
   default = {}
 }
@@ -170,6 +172,8 @@ variable "spoke_virtual_machines" {
       sku       = string
       version   = string
     }), null)
+    admin_username  = string
+    ssh_public_key  = string
   })))
   default = {}
 }

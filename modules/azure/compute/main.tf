@@ -45,8 +45,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   tags                  = var.tags
 
   admin_ssh_key {
-    username   = var.admin_username
-    public_key = var.ssh_public_key
+    username   = each.value.admin_username
+    public_key = each.value.ssh_public_key
   }
 
   os_disk {

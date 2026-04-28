@@ -35,9 +35,12 @@ variable "virtual_machines" {
       sku       = "server"
       version   = "latest"
     })
+    admin_username  = string
+    ssh_public_key  = string
   }))
   default = {}
 }
+/*
 variable "admin_username"{
   description = "Username Admin for machines"
   type = string
@@ -48,6 +51,7 @@ variable "ssh_public_key" {
   type        = string
   sensitive   = true
 }
+*/
 
 
 /*

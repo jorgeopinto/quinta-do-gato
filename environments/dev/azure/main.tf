@@ -259,8 +259,7 @@ module "hub_vms" {
   source   = "../../../modules/azure/compute"
   for_each = local.hub_vms_flat
 
-  admin_username  = var.admin_username
-  ssh_public_key  = var.ssh_public_key
+  
 
   resource_group_name = azurerm_resource_group.hub[each.value.hub_key].name
   location            = var.location
@@ -274,6 +273,9 @@ module "hub_vms" {
       os_disk_type    = each.value.vm.os_disk_type
       os_disk_size_gb = each.value.vm.os_disk_size_gb
       image           = each.value.vm.image
+
+      admin_username  = each.value.vm.admin_username
+      ssh_public_key  = each.value.vm.ssh_public_key
     }
   }
 
@@ -288,8 +290,7 @@ module "spoke_vms" {
   source   = "../../../modules/azure/compute"
   for_each = local.spoke_vms_flat
 
-  admin_username  = var.admin_username
-  ssh_public_key  = var.ssh_public_key
+  
 
   resource_group_name = azurerm_resource_group.spokes[each.value.spoke_key].name
   location            = var.location
@@ -303,6 +304,9 @@ module "spoke_vms" {
       os_disk_type    = each.value.vm.os_disk_type
       os_disk_size_gb = each.value.vm.os_disk_size_gb
       image           = each.value.vm.image
+
+      admin_username  = each.value.vm.admin_username
+      ssh_public_key  = each.value.vm.ssh_public_key
     }
   }
 
