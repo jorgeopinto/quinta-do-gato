@@ -267,7 +267,7 @@ module "hub_vms" {
     (each.value.vm_key) = {
       name            = each.value.vm.name
       vm_size         = each.value.vm.vm_size
-      admin_username  = each.value.vm.admin_username
+      admin_username  = var.admin_username
       ssh_public_key  = var.ssh_public_key
       subnet_id       = module.hub_vnet[each.value.hub_key].subnet_ids[each.value.vm.subnet_name]
       os_disk_type    = each.value.vm.os_disk_type
@@ -295,7 +295,7 @@ module "spoke_vms" {
     (each.value.vm_key) = {
       name            = each.value.vm.name
       vm_size         = each.value.vm.vm_size
-      admin_username  = each.value.vm.admin_username
+      admin_username  = var.admin_username
       ssh_public_key  = var.ssh_public_key
       subnet_id       = module.spoke_vnets[each.value.spoke_key].subnet_ids[each.value.vm.subnet_name]
       os_disk_type    = each.value.vm.os_disk_type
