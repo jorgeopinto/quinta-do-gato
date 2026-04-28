@@ -34,7 +34,7 @@ variable "virtual_machines" {
       version   = "latest"
     })
     admin_username  = string
-    #ssh_public_key  = string
+    
   }))
   default = {}
 }

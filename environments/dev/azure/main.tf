@@ -275,7 +275,7 @@ module "hub_vms" {
       image           = each.value.vm.image
 
       admin_username  = each.value.vm.admin_username
-      AZURE_KEY_PUB   = var.AZURE_KEY_PUB 
+      #AZURE_KEY_PUB   = var.AZURE_KEY_PUB 
       #ssh_public_key  = each.value.vm.ssh_public_key
     }
   }
