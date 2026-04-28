@@ -29,8 +29,8 @@ variable "virtual_machines" {
       version   = string
     }), {
       publisher = "Canonical"
-      offer     = "ubuntu-24_04-lts"
-      sku       = "server"
+      offer     = "0001-com-ubuntu-server-jamm"
+      sku       = "22_04-lts"
       version   = "latest"
     })
     admin_username  = string
