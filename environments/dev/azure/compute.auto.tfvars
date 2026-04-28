@@ -21,7 +21,7 @@ hub_virtual_machines = {
       os_disk_size_gb = 30
       # image é opcional; não existindo usa Ubuntu 24.04 LTS por defeito declarado nas variaveis do modulo
 
-      ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAA... jorge@machine"
+      #ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAA... jorge@machine"
       admin_username = "jorge"
     }
   }
@@ -43,7 +43,7 @@ spoke_virtual_machines = {
       os_disk_type   = "Premium_LRS"
       os_disk_size_gb = 64
       
-      ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAA... jorge@machine"
+      #ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAA... jorge@machine"
       admin_username = "jorge"
     }
     "vm-db" = {
@@ -61,7 +61,7 @@ spoke_virtual_machines = {
         version   = "latest"
       }
       
-      ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAA... jorge@machine"
+      #ssh_public_key = Declarada dentro do github
       admin_username = "jorge"
     }
   }
@@ -75,7 +75,7 @@ spoke_virtual_machines = {
       os_disk_type   = "Standard_LRS"
       os_disk_size_gb = 30
 
-      ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAA... jorge@machine"
+      #ssh_public_key = Declarada dentro do github
       admin_username = "jorge"
     }
   }

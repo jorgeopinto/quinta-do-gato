@@ -34,7 +34,7 @@ variable "virtual_machines" {
       version   = "latest"
     })
     admin_username  = string
-    ssh_public_key  = string
+    #ssh_public_key  = string
   }))
   default = {}
 }
@@ -43,13 +43,13 @@ variable "admin_username"{
   description = "Username Admin for machines"
   type = string
 }
-
-variable "ssh_public_key" {
+*/
+variable "AZURE_KEY_PUB" {
   description = "Chave SSH pública para acesso às VMs"
   type        = string
   sensitive   = true
 }
-*/
+
 
 
 /*

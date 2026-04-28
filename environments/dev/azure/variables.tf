@@ -127,13 +127,14 @@ variable "admin_username" {
   description = "Username a usar nas VMS"
   type        = string
 }
-
-variable "ssh_public_key" {
+*/
+variable "AZURE_KEY_PUB" {
   description = "Chave SSH pública para acesso às VMs"
   type        = string
   sensitive   = true
 }
-*/
+
+
 
 variable "hub_virtual_machines" {
   description = "Mapa de VMs a criar no Hub, por hub key"
@@ -151,7 +152,7 @@ variable "hub_virtual_machines" {
       version   = string
     }), null)
     admin_username  = string
-    ssh_public_key  = string
+    #AZURE_KEY_PUB   = optional(string,null)
   })))
   default = {}
 }
@@ -172,7 +173,7 @@ variable "spoke_virtual_machines" {
       version   = string
     }), null)
     admin_username  = string
-    ssh_public_key  = string
+    #ssh_public_key  = optional(string,null)
   })))
   default = {}
 }

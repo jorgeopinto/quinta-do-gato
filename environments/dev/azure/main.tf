@@ -258,7 +258,7 @@ locals {
 module "hub_vms" {
   source   = "../../../modules/azure/compute"
   for_each = local.hub_vms_flat
-
+  AZURE_KEY_PUB       = var.AZURE_KEY_PUB
   
 
   resource_group_name = azurerm_resource_group.hub[each.value.hub_key].name
@@ -275,7 +275,8 @@ module "hub_vms" {
       image           = each.value.vm.image
 
       admin_username  = each.value.vm.admin_username
-      ssh_public_key  = each.value.vm.ssh_public_key
+      AZURE_KEY_PUB   = var.AZURE_KEY_PUB 
+      #ssh_public_key  = each.value.vm.ssh_public_key
     }
   }
 
@@ -289,7 +290,7 @@ module "hub_vms" {
 module "spoke_vms" {
   source   = "../../../modules/azure/compute"
   for_each = local.spoke_vms_flat
-
+  AZURE_KEY_PUB       = var.AZURE_KEY_PUB
   
 
   resource_group_name = azurerm_resource_group.spokes[each.value.spoke_key].name
@@ -306,7 +307,7 @@ module "spoke_vms" {
       image           = each.value.vm.image
 
       admin_username  = each.value.vm.admin_username
-      ssh_public_key  = each.value.vm.ssh_public_key
+      #ssh_public_key  = each.value.vm.ssh_public_key
     }
   }
 
