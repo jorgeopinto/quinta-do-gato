@@ -70,7 +70,7 @@ spoke_virtual_machines = {
 */
   spoke3 = {
     "vm-app" = {
-      name           = "vm-spoke2-app"
+      name           = "vm-spoke3-app"
       count          = 2 #a quantidade de vms que quero aqui criar
       vm_size        = "Standard_D2s_v3"
       subnet_name    = "snet-compute"

@@ -194,7 +194,7 @@ spokes = {
             source_port_range          = "*"
             destination_port_range     = "22"
             source_address_prefix      = "85.241.235.71/32"
-            destination_address_prefix = "10.3.1.0/24"
+            destination_address_prefix = "10.200.1.0/24"
           },
           {
             name                       = "deny-internet-inbound"
