@@ -7,7 +7,7 @@ env:
   ARM_TENANT_ID: ${{secrets.ARM_TENANT_ID}}
   ARM_SUBSCRIPTION_ID: ${{secrets.ARM_SUBSCRIPTION_ID}}
   ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
-  TF_VAR_aws_key_pub: ${{secrets.TF_VAR_AWS_KEY_PUB}}
+  TF_VAR_AWS_KEY_PUB: ${{secrets.TF_VAR_AWS_KEY_PUB}}
   TF_VAR_AZURE_KEY_PUB: ${{secrets.TF_VAR_AZURE_KEY_PUB}}
 
 jobs:
@@ -30,10 +30,5 @@ jobs:
         terraform validate
         terraform plan
       working-directory: environments/dev/azure
-    - name: Debug SSH key
-      env:
-        TF_VAR_AZURE_KEY_PUB: ${{ secrets.TF_VAR_AZURE_KEY_PUB }}
-      run: |
-        echo "Length: ${#TF_VAR_AZURE_KEY_PUB}"
-        echo "$TF_VAR_AZURE_KEY_PUB" | ssh-keygen -l -f -
+
   
