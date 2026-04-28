@@ -46,7 +46,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = each.value.admin_username
-    public_key = trimspace(var.AZURE_KEY_PUB)
+    public_key = var.AZURE_KEY_PUB
   }
 
   os_disk {
