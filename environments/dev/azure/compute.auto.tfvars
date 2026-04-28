@@ -31,7 +31,7 @@ hub_virtual_machines = {
 # VMs nos SPOKES
 # Estrutura: spoke_key → vm_key → definição
 # ─────────────────────────────────────────
-/*
+
 spoke_virtual_machines = {
   # "spoke1" deve corresponder à key do teu map `spokes`
   spoke1 = {
@@ -39,13 +39,14 @@ spoke_virtual_machines = {
       name           = "vm-spoke1-app"
       count          = 1
       vm_size        = "Standard_D2s_v3"
-      subnet_name    = "snet-app"          # nome exato do subnet definido nos spokes
-      os_disk_type   = "Premium_LRS"
+      subnet_name    = "snet-data"          # nome exato do subnet definido nos spokes
+      os_disk_type   = "Standard_LRS"
       os_disk_size_gb = 64
       
       #ssh_public_key -> já é injectado no TF_VAR do github
       admin_username = "jorge"
     }
+ /* 
     "vm-db" = {
       name           = "vm-spoke1-db"
       count = 1
@@ -65,12 +66,12 @@ spoke_virtual_machines = {
       admin_username = "jorge"
     }
   }
-
+*/
   spoke3 = {
     "vm-app" = {
       name           = "vm-spoke2-app"
-      count          = 1 #a quantidade de vms que quero aqui criar
-      vm_size        = "Standard_B2s"
+      count          = 2 #a quantidade de vms que quero aqui criar
+      vm_size        = "Standard_D2s_v3"
       subnet_name    = "snet-compute"
       os_disk_type   = "Standard_LRS"
       os_disk_size_gb = 30
@@ -80,4 +81,3 @@ spoke_virtual_machines = {
     }
   }
 }
-*/
