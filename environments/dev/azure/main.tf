@@ -288,6 +288,9 @@ module "spoke_vms" {
   source   = "../../../modules/azure/compute"
   for_each = local.spoke_vms_flat
 
+  admin_username  = var.admin_username
+  ssh_public_key  = var.ssh_public_key
+
   resource_group_name = azurerm_resource_group.spokes[each.value.spoke_key].name
   location            = var.location
   tags                = merge(var.common_tags, var.spokes[each.value.spoke_key].tags)
@@ -296,8 +299,6 @@ module "spoke_vms" {
     (each.value.vm_key) = {
       name            = each.value.vm.name
       vm_size         = each.value.vm.vm_size
-      admin_username  = var.admin_username
-      ssh_public_key  = var.ssh_public_key
       subnet_id       = module.spoke_vnets[each.value.spoke_key].subnet_ids[each.value.vm.subnet_name]
       os_disk_type    = each.value.vm.os_disk_type
       os_disk_size_gb = each.value.vm.os_disk_size_gb
