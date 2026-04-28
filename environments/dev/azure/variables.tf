@@ -162,7 +162,6 @@ variable "spoke_virtual_machines" {
     name            = string
     count           = optional(number, 1)
     vm_size         = string
-    admin_username  = string
     subnet_name     = string
     os_disk_type    = optional(string, "Standard_LRS")
     os_disk_size_gb = optional(number, 30)

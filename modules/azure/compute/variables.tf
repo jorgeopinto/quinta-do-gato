@@ -19,8 +19,6 @@ variable "virtual_machines" {
   type = map(object({
     name           = string
     vm_size        = string
-    admin_username = string
-    ssh_public_key = string
     subnet_id      = string
     os_disk_type   = optional(string, "Standard_LRS")
     os_disk_size_gb = optional(number, 30)
