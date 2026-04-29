@@ -32,8 +32,10 @@ hub_virtual_machines = {
 # Estrutura: spoke_key → vm_key → definição
 # ─────────────────────────────────────────
 
+/*
 spoke_virtual_machines = {
   # "spoke1" deve corresponder à key do teu map `spokes`
+  
   spoke1 = {
     "vm-app" = {
       name           = "vm-spoke1-app"
@@ -47,7 +49,7 @@ spoke_virtual_machines = {
       admin_username = "jorge"
     }
   }
- /* 
+
     "vm-db" = {
       name           = "vm-spoke1-db"
       count = 1
@@ -67,7 +69,7 @@ spoke_virtual_machines = {
       admin_username = "jorge"
     }
   }
-*/
+
   spoke3 = {
     "vm-app" = {
       name           = "vm-spoke3-app"
@@ -82,3 +84,4 @@ spoke_virtual_machines = {
     }
   }
 }
+*/
