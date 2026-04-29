@@ -10,25 +10,35 @@ variable "location" {
 
 
 variable "hubs" {
-  description = "Mapa de configurações dos Spokes"
+  description = "Mapa de configurações dos Hubs"
   type = map(object({
     hub_resource_group_name = string
     hub_vnet_name           = string
     hub_address_space       = string
-    tags                = map(string)
+    tags                    = map(string)
+
     subnets = list(object({
       name             = string
       address_prefixes = list(string)
+
       nsg_rules = optional(list(object({
-        name                       = string
-        priority                   = number
-        direction                  = string
-        access                     = string
-        protocol                   = string
-        source_port_range          = string
-        destination_port_range     = string
-        source_address_prefix      = string
-        destination_address_prefix = string
+        name        = string
+        priority    = number
+        direction   = string
+        access      = string
+        protocol    = string
+
+        # SINGLE VALUES (opcionais)
+        source_port_range          = optional(string)
+        destination_port_range     = optional(string)
+        source_address_prefix      = optional(string)
+        destination_address_prefix = optional(string)
+
+        # LISTAS (opcionais)
+        source_port_ranges           = optional(list(string))
+        destination_port_ranges      = optional(list(string))
+        source_address_prefixes      = optional(list(string))
+        destination_address_prefixes = optional(list(string))
       })), [])
     }))
   }))
