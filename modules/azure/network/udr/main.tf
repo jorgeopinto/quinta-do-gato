@@ -9,14 +9,15 @@ resource "azurerm_route_table" "rt" {
 
 resource "azurerm_route" "routes" {
   for_each = {
-    for subnet_name, subnet in var.subnets :
-    # cria um mapa de rotas por subnet
-    for route in subnet.routes :
-    "${subnet_name}-${route.name}" => {
-      subnet_name = subnet_name
-      route       = route
-    }
-    if length(subnet.routes) > 0
+    for entry in flatten([
+      for subnet_name, subnet in var.subnets : [
+        for route in subnet.routes : {
+          key         = "${subnet_name}-${route.name}"
+          subnet_name = subnet_name
+          route       = route
+        }
+      ]
+    ]) : entry.key => entry
   }
 
   name                   = each.value.route.name
