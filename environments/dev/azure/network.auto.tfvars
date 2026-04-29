@@ -76,6 +76,7 @@ hubs = {
             destination_address_prefix = "*"
           }
         ]
+        propagate_gateway_routes = false  # NÃO propagar rotas do gateway
         udr_routes = [
           {
             name                   = "route-to-firewall"

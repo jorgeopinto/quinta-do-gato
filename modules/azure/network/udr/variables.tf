@@ -8,6 +8,7 @@ variable "subnets" {
       next_hop_type          = string
       next_hop_in_ip_address = optional(string)
     }))
+    propagate_gateway_routes = bool
   }))
 }
 

@@ -41,11 +41,12 @@ variable "hubs" {
         destination_address_prefixes = optional(list(string))
       })), [])
     # bloco para UDRS
+        propagate_gateway_routes = optional(bool, true) # Por defeito propaga as rotas recebidas de gateways com vpn ou EXR
         udr_routes = optional(list(object({
-        name                   = string
-        address_prefix         = string
-        next_hop_type          = string
-        next_hop_in_ip_address = optional(string)
+          name                   = string
+          address_prefix         = string
+          next_hop_type          = string
+          next_hop_in_ip_address = optional(string)
       })), [])    
     }))
   }))

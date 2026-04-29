@@ -4,6 +4,7 @@ resource "azurerm_route_table" "rt" {
   name                = "rt-${each.key}"
   location            = var.location
   resource_group_name = var.resource_group_name
+  disable_bgp_route_propagation = !each.value.propagate_gateway_routes
   tags                = var.tags
 }
 
