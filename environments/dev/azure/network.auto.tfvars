@@ -24,6 +24,17 @@ source_address_prefixes     = [
             ]
 Um mutiple pode ser single se la colocamos só um valor
 source_address_prefixes     = ["85.241.235.71/32"]
+
+
+Instruçoes UDR: 
+
+Existe 5 tipos de next HOP
+VirtualNetworkGateway -> Enviar o tráfego para o Gateway de Rede Virtual (VPN Gateway ou ExpressRoute Gateway)
+VirtualAppliance aponta para um NVA, firewall, e é o unico que necessita do next_hop_in_ip_address = IP
+Internet -> aponta para 0.0.0.0/0 mas cuidado aqui porque que o address_prefix (range destino) tem de ser publico. Isto nao faz nat
+VirtualNetwork ->O tráfego deve ser encaminhado internamente dentro da própria VNet. Forçar que o tráfego fique dentro da VNet. Azure já faz isso por defeito 
+none -> Não há next hop — descarta o tráfego.
+
          
 */
 hubs = {
@@ -76,7 +87,7 @@ hubs = {
             destination_address_prefix = "*"
           }
         ]
-        propagate_gateway_routes = false  # NÃO propagar rotas do gateway
+        propagate_gateway_routes = True  # NÃO propagar rotas do gateway
         udr_routes = [
           {
             name                   = "route-to-firewall"
@@ -242,6 +253,20 @@ spokes = {
             destination_port_range     = "*"
             source_address_prefix      = "Internet"
             destination_address_prefix = "*"
+          }
+        ]
+        propagate_gateway_routes = False  # NÃO propagar rotas do gateway
+        udr_routes = [
+          {
+            name                   = "route-to-firewall"
+            address_prefix         = "0.0.0.0/0"
+            next_hop_type          = "VirtualAppliance"
+            next_hop_in_ip_address = "10.1.2.4"
+          },
+          {
+            name           = "route-to-onprem"
+            address_prefix = "192.168.0.0/16"
+            next_hop_type  = "VirtualNetworkGateway"
           }
         ]
       },

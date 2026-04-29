@@ -87,6 +87,7 @@ variable "spokes" {
         source_address_prefixes      = optional(list(string))
         destination_address_prefixes = optional(list(string))
       })), [])
+        propagate_gateway_routes = optional(bool, true)
         udr_routes = optional(list(object({
         name                   = string
         address_prefix         = string
