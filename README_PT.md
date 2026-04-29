@@ -57,7 +57,7 @@ modules/azure/
 │   |   ├── main.tf
 │   |   ├── variables.tf
 │   |   └── outputs.tf
-|   └── udr/                 # Módulo de Modulo para route tables
+|   └── udr/                 # Módulo para route tables
 │       ├── main.tf
 │       ├── variables.tf
 │       └── outputs.tf
@@ -218,6 +218,7 @@ subnets = [
       ]
   }
 ]
+```
 
 Instruçoes UDR: 
 
