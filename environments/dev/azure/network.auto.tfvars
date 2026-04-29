@@ -10,8 +10,22 @@ common_tags = {
 # ─────────────────────────────────────────
 # HUB VNets (dynamic using variables)
 # ─────────────────────────────────────────
+/* Instruções NSG
+protocol                   = "Tcp" Pode ser ou tcp, ou UDP ou ICMPv4 ou ICMPv6 ou Any
 
-
+Todas as demais variaves pode ser single ou multiples.AZURE_KEY_PUB = "Por exemplo "
+source_port_range          = "*" apenas leva um valor, exemplo 80, ou *. O * só funciona neste modo single
+source_port_ranges <- s     = ["22", "443"] >- neste formato
+IP's é igual
+source_address_prefix      "85.241.235.71/32"
+source_address_prefixes     = [
+         "85.241.235.71/32", <- não esquecer a virgula
+         "85.241.235.72/32"
+            ]
+Um mutiple pode ser single se la colocamos só um valor
+source_address_prefixes     = ["85.241.235.71/32"]
+         
+*/
 hubs = {
   hub1 ={
     hub_resource_group_name      = "QDG_network_dev_hub1"
@@ -42,14 +56,7 @@ hubs = {
             access                     = "Allow"
             protocol                   = "Tcp"
             source_port_range          = "*" # usar * (any) só em single
-            # portos unicos
-            #destination_port_range     = "22"
-            # múltiplos ports
-            destination_port_ranges     = ["22", "443"]
-            
-            # IP's unicos
-            #source_address_prefix      = "85.241.235.71/32"
-            # múltiplos IPs
+            destination_port_ranges     = ["22", "443", "80"]
             source_address_prefixes     = [
                 "85.241.235.71/32",
                 "85.241.235.72/32"
