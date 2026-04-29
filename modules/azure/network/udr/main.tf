@@ -27,3 +27,11 @@ resource "azurerm_route" "routes" {
   next_hop_type          = each.value.route.next_hop_type
   next_hop_in_ip_address = lookup(each.value.route, "next_hop_in_ip_address", null)
 }
+
+#associação da route table à subnet pretendida
+resource "azurerm_subnet_route_table_association" "assoc" {
+  for_each = var.subnets
+
+  subnet_id      = each.value.subnet_id
+  route_table_id = azurerm_route_table.rt[each.key].id
+}
