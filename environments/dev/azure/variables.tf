@@ -40,6 +40,13 @@ variable "hubs" {
         source_address_prefixes      = optional(list(string))
         destination_address_prefixes = optional(list(string))
       })), [])
+    # bloco para UDRS
+        udr_routes = optional(list(object({
+        name                   = string
+        address_prefix         = string
+        next_hop_type          = string
+        next_hop_in_ip_address = optional(string)
+      })), [])    
     }))
   }))
 }
@@ -66,10 +73,24 @@ variable "spokes" {
         direction                  = string
         access                     = string
         protocol                   = string
-        source_port_range          = string
-        destination_port_range     = string
-        source_address_prefix      = string
-        destination_address_prefix = string
+
+        # SINGLE VALUES (opcionais)
+        source_port_range          = optional(string)
+        destination_port_range     = optional(string)
+        source_address_prefix      = optional(string)
+        destination_address_prefix = optional(string)
+
+        # LISTAS (opcionais)
+        source_port_ranges           = optional(list(string))
+        destination_port_ranges      = optional(list(string))
+        source_address_prefixes      = optional(list(string))
+        destination_address_prefixes = optional(list(string))
+      })), [])
+        udr_routes = optional(list(object({
+        name                   = string
+        address_prefix         = string
+        next_hop_type          = string
+        next_hop_in_ip_address = optional(string)
       })), [])
     }))
   }))

@@ -152,6 +152,31 @@ module "hub_nsgs" {
   depends_on = [module.hub_vnet]
 }
 # ─────────────────────────────────────────
+# UDRSs por Subnet (Hub)
+# ─────────────────────────────────────────
+module "hub_udrs" {
+  source   = "../../../modules/azure/network/udr"
+  for_each = var.hubs
+
+  resource_group_name = azurerm_resource_group.hub[each.key].name
+  location            = var.location
+  tags                = merge(var.common_tags, each.value.tags)
+
+  subnets = {
+    for s in each.value.subnets :
+    s.name => {
+      subnet_id = module.hub_vnet[each.key].subnet_ids[s.name]
+      routes    = s.udr_routes
+    }
+    if length(s.udr_routes) > 0
+  }
+
+  depends_on = [module.hub_vnet]
+}
+
+
+
+# ─────────────────────────────────────────
 # NSGs por Subnet (Spokes)
 # ─────────────────────────────────────────
 
@@ -176,6 +201,30 @@ module "spoke_nsgs" {
   depends_on = [module.spoke_vnets]
 }
 
+module "spoke_udrs" {
+  source   = "../../../modules/azure/network/udr"
+  for_each = var.spokes
+
+  resource_group_name = azurerm_resource_group.spokes[each.key].name
+  location            = var.location
+  tags                = merge(var.common_tags, each.value.tags)
+
+  subnets = {
+    for s in each.value.subnets :
+    s.name => {
+      subnet_id = module.spoke_vnets[each.key].subnet_ids[s.name]
+      routes    = s.udr_routes
+    }
+    if length(s.udr_routes) > 0
+  }
+
+  depends_on = [module.spoke_vnets]
+}
+
+
+# ─────────────────────────────────────────
+# NSGs por Subnet (spoke)
+# ─────────────────────────────────────────
   
 
 

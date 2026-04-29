@@ -49,3 +49,19 @@ output "spoke_nsg_ids" {
   value       = { for k, v in module.spoke_nsgs : k => v.nsg_ids }
 }
 
+output "hub_route_tables" {
+  description = "Route tables criadas por hub"
+  value = {
+    for hub, mod in module.hub_udrs :
+    hub => mod.route_table_ids
+  }
+}
+output "hub_routes" {
+  description = "Rotas criadas por hub"
+  value = {
+    for hub, mod in module.hub_udrs :
+    hub => mod.routes
+  }
+}
+
+

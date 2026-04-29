@@ -75,7 +75,19 @@ hubs = {
             source_address_prefix      = "Internet"
             destination_address_prefix = "*"
           }
-        
+        ]
+        udr_routes = [
+          {
+            name                   = "route-to-firewall"
+            address_prefix         = "0.0.0.0/0"
+            next_hop_type          = "VirtualAppliance"
+            next_hop_in_ip_address = "10.1.2.4"
+          },
+          {
+            name           = "route-to-onprem"
+            address_prefix = "192.168.0.0/16"
+            next_hop_type  = "VirtualNetworkGateway"
+          }
         ]
       }
     ] 
