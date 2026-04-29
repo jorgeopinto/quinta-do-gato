@@ -87,7 +87,7 @@ hubs = {
             destination_address_prefix = "*"
           }
         ]
-        propagate_gateway_routes = True  # NÃO propagar rotas do gateway
+        propagate_gateway_routes = true  # NÃO propagar rotas do gateway. Só letra minuscula
         udr_routes = [
           {
             name                   = "route-to-firewall"
@@ -255,7 +255,7 @@ spokes = {
             destination_address_prefix = "*"
           }
         ]
-        propagate_gateway_routes = False  # NÃO propagar rotas do gateway
+        propagate_gateway_routes = false  # NÃO propagar rotas do gateway
         udr_routes = [
           {
             name                   = "route-to-firewall"
