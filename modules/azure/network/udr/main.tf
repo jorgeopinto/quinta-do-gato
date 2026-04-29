@@ -4,7 +4,7 @@ resource "azurerm_route_table" "rt" {
   name                = "rt-${each.key}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  disable_bgp_route_propagation = !each.value.propagate_gateway_routes
+  bgp_route_propagation_enabled = each.value.propagate_gateway_routes
   tags                = var.tags
 }
 
@@ -35,4 +35,5 @@ resource "azurerm_subnet_route_table_association" "assoc" {
 
   subnet_id      = each.value.subnet_id
   route_table_id = azurerm_route_table.rt[each.key].id
+  
 }
