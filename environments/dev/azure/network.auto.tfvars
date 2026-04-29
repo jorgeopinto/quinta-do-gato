@@ -49,12 +49,12 @@ hubs = {
             
             # IP's unicos
             #source_address_prefix      = "85.241.235.71/32"
-            #destination_address_prefix = "10.1.2.0/24"
             # múltiplos IPs
             source_address_prefixes     = [
                 "85.241.235.71/32",
                 "85.241.235.72/32"
             ]
+            destination_address_prefix = "10.1.2.0/24"
 
           },
           {
@@ -102,8 +102,11 @@ hubs = {
             access                     = "Allow"
             protocol                   = "Tcp"
             source_port_range          = "*"
-            destination_port_range     = "22"
-            source_address_prefix      = "85.241.235.71/32"
+            destination_port_ranges     = ["22", "443"]
+             source_address_prefixes     = [
+                "85.241.235.71/32",
+                "85.241.235.72/32"
+            ]
             destination_address_prefix = "10.2.2.0/24"
           },
           {
