@@ -14,7 +14,9 @@ hub_virtual_machines = {
   hub1 = {
     "vm-mgmt" = {
       name           = "vm-hub1-mgmt"
-      count          = 1
+      count          = 0 #reduzir o count vai SEMPRE destruir recursos e recriar.
+      #adicionar funciona bem e não causa destruições
+      # evitar destruições, tem de se usar keys estáveis e não count
       vm_size        = "Standard_D2s_v3"
       subnet_name    = "snet-NVA"   # nome exato do subnet definido nos hubs
       os_disk_type   = "Standard_LRS"
@@ -39,7 +41,9 @@ spoke_virtual_machines = {
   spoke1 = {
     "vm-app" = {
       name           = "vm-spoke1-app"
-      count          = 1
+      count          = 1 #reduzir o count vai SEMPRE destruir recursos e recriar.
+      #adicionar funciona bem e não causa destruições
+      # evitar destruições, tem de se usar keys estáveis e não count
       vm_size        = "Standard_D2s_v3"
       subnet_name    = "snet-data"          # nome exato do subnet definido nos spokes
       os_disk_type   = "Standard_LRS"

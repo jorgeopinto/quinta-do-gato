@@ -15,13 +15,22 @@ resource "azurerm_network_security_group" "nsg" {
       direction                  = security_rule.value.direction
       access                     = security_rule.value.access
       protocol                   = security_rule.value.protocol
-      source_port_range          = security_rule.value.source_port_range
-      destination_port_range     = security_rule.value.destination_port_range
-      source_address_prefix      = security_rule.value.source_address_prefix
-      destination_address_prefix = security_rule.value.destination_address_prefix
+
+      # SINGLE VALUES (opcionais)
+      source_port_range          = lookup(security_rule.value, "source_port_range", null)
+      destination_port_range     = lookup(security_rule.value, "destination_port_range", null)
+      source_address_prefix      = lookup(security_rule.value, "source_address_prefix", null)
+      destination_address_prefix = lookup(security_rule.value, "destination_address_prefix", null)
+
+      # LISTAS (opcionais)
+      source_port_ranges         = lookup(security_rule.value, "source_port_ranges", null)
+      destination_port_ranges    = lookup(security_rule.value, "destination_port_ranges", null)
+      source_address_prefixes    = lookup(security_rule.value, "source_address_prefixes", null)
+      destination_address_prefixes = lookup(security_rule.value, "destination_address_prefixes", null)
     }
   }
 }
+
 
 # Associar cada NSG à sua subnet
 resource "azurerm_subnet_network_security_group_association" "nsg" {

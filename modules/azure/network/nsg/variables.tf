@@ -16,18 +16,28 @@ variable "tags" {
 
 variable "subnets" {
   description = "Mapa de subnets com as suas regras NSG. A chave é o nome da subnet."
+
   type = map(object({
     subnet_id = string
+
     rules = list(object({
-      name                       = string
-      priority                   = number
-      direction                  = string # "Inbound" ou "Outbound"
-      access                     = string # "Allow" ou "Deny"
-      protocol                   = string # "Tcp", "Udp", "Icmp", "*"
-      source_port_range          = string
-      destination_port_range     = string
-      source_address_prefix      = string
-      destination_address_prefix = string
+      name        = string
+      priority    = number
+      direction   = string
+      access      = string
+      protocol    = string
+
+      # SINGLE VALUES (opcionais)
+      source_port_range          = optional(string)
+      destination_port_range     = optional(string)
+      source_address_prefix      = optional(string)
+      destination_address_prefix = optional(string)
+
+      # LISTAS (opcionais)
+      source_port_ranges           = optional(list(string))
+      destination_port_ranges      = optional(list(string))
+      source_address_prefixes      = optional(list(string))
+      destination_address_prefixes = optional(list(string))
     }))
   }))
 }
