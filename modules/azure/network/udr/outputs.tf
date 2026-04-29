@@ -15,14 +15,11 @@ output "route_table_names" {
 output "routes" {
   description = "Rotas criadas em cada route table"
   value = {
-    for subnet_name, routes in azurerm_route.routes :
-    subnet_name => {
-      for r in routes :
-      r.name => {
-        address_prefix         = r.address_prefix
-        next_hop_type          = r.next_hop_type
-        next_hop_in_ip_address = try(r.next_hop_in_ip_address, null)
-      }
+    for k, v in azurerm_route.routes : k => {
+      name                   = v.name
+      address_prefix         = v.address_prefix
+      next_hop_type          = v.next_hop_type
+      next_hop_in_ip_address = v.next_hop_in_ip_address
     }
   }
 }
