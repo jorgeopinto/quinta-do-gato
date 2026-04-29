@@ -101,13 +101,15 @@ hubs = {
             direction                  = "Inbound"
             access                     = "Allow"
             protocol                   = "Tcp"
-            source_port_range          = "*"
+            source_port_ranges          =["*"] 
             destination_port_ranges     = ["22", "443"]
              source_address_prefixes     = [
                 "85.241.235.71/32",
-                "85.241.235.72/32"
-            ]
-            destination_address_prefix = "10.2.2.0/24"
+              ]
+            destination_address_prefixes = [
+                "10.2.2.4/32", 
+                "10.2.2.5/32"
+              ]
           },
           {
             name                       = "deny-internet-inbound"
