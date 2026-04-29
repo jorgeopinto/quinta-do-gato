@@ -182,32 +182,7 @@ module "spoke_nsgs" {
 ######################
 #        VMS         #
 ######################
-/*
-Para vms em diferentes subnets
-entra: no modulo for_each = local.vm_definitions e sai count
-subnet id passa a ser: subnet_id = module.network.subnet_id[each.value.subnet]
-
-locals {
-  vm_definitions = {
-    vm1 = { prefix = "Linux_VM_1", subnet = 0 }
-    vm2 = { prefix = "Linux_VM_2", subnet = 1 }
-    vm3 = { prefix = "Linux_VM_3", subnet = 0 }
-  }
-}
-
-module "compute" {
-  source              = "../../../modules/azure/compute"
-  count = 1
-  resource_group_name = "QDG_compute_dev"
-  prefix              = "Linux-VM-${count.index + 1}"
-  vm_size             = "Standard_D2s_v3"
-  subnet_id           = module.vnet-spoke.subnet_id[0]
-  admin_user      = "jorge"
-  azure_key_pub = var.azure_key_pub
-  }
-  
-  */
-  # ─────────────────────────────────────────
+# ─────────────────────────────────────────
 # Locals: preparar VMs Hub com subnet_id resolvido
 # ─────────────────────────────────────────
 
@@ -221,7 +196,7 @@ locals {
           for i in range(vm.count) : {
             key     = vm.count == 1 ? "${hub_key}|${vm_key}" : "${hub_key}|${vm_key}-${format("%03d", i + 1)}"
             hub_key = hub_key
-            vm_key  = vm_key
+            vm_key = vm.count == 1 ? vm_key : "${vm_key}-${format("%03d", i + 1)}"
             vm = merge(vm, {
               name = vm.count == 1 ? vm.name : "${vm.name}-${format("%03d", i + 1)}"
             })
@@ -240,7 +215,7 @@ locals {
           for i in range(vm.count) : {        # ← expande pelo count
             key       = "${spoke_key}|${vm_key}-${format("%03d", i + 1)}"
             spoke_key = spoke_key
-            vm_key    = vm_key
+            vm_key = vm.count == 1 ? vm_key : "${vm_key}-${format("%03d", i + 1)}"
             vm        = merge(vm, {
               name = "${vm.name}-${format("%03d", i + 1)}"   # vm-spoke2-app-001, 002...
             })
