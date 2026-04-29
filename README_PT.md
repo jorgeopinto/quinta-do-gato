@@ -159,9 +159,9 @@ source_address_prefixes     = [
             ]
 ```
 Aplicavel em:
-source_port_ranges
-destination_port_ranges
-source_address_prefixes
+source_port_ranges\
+destination_port_ranges\
+source_address_prefixes\
 destination_address_prefixes
 
 ```hcl
