@@ -41,7 +41,7 @@ hubs = {
             direction                  = "Inbound"
             access                     = "Allow"
             protocol                   = "Tcp"
-            source_port_range          = "*"
+            source_port_range          = "*" # usar * (any) só em single
             # portos unicos
             #destination_port_range     = "22"
             # múltiplos ports
@@ -101,7 +101,7 @@ hubs = {
             direction                  = "Inbound"
             access                     = "Allow"
             protocol                   = "Tcp"
-            source_port_ranges          =["*"] 
+            source_port_ranges          =["80"] 
             destination_port_ranges     = ["22", "443"]
              source_address_prefixes     = [
                 "85.241.235.71/32",
