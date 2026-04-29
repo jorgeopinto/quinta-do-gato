@@ -223,9 +223,8 @@ subnets = [
 Instruçoes UDR: 
 
 propagate_gateway_routes udr_routes que vem fora do bloco  por defeito é sempre "true", portanto nem era necessario se queremos receber as rotas que veem de on-premises por VPN ou EXR, no entanto por uma questão de consistencia, deverá ser sempre acompanha o bloco udr_routes\
-Quando é "false" não queremos receber rotas do on-premises. Esta opção é importante para manter consitencia nos peerings. Podemos colocar todos como "use remote gateway", por exemplo.  
-
-
+Quando é "false" não queremos receber rotas do on-premises. Esta opção é importante para manter consitencia nos peerings. Podemos colocar todos como "use remote gateway", por exemplo.
+  
 Existe 5 tipos de next HOP
 VirtualNetworkGateway -> Enviar o tráfego para o Gateway de Rede Virtual (VPN Gateway ou ExpressRoute Gateway)
 VirtualAppliance-> aponta para um NVA, firewall, e é o unico que necessita do next_hop_in_ip_address = IP
