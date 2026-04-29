@@ -215,6 +215,7 @@ module "spoke_udrs" {
     s.name => {
       subnet_id = module.spoke_vnets[each.key].subnet_ids[s.name]
       routes    = s.udr_routes
+      propagate_gateway_routes = lookup(s, "propagate_gateway_routes", true)
     }
     if length(s.udr_routes) > 0
   }
