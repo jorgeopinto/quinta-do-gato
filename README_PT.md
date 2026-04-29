@@ -246,8 +246,8 @@ hub_virtual_machines = {
   }
 }
 ```
-O modo com keys estáveis vai ser adicionado a um repositorio não publco. \ 
-Com count é melhor para criar Vm's em massa, por exemplo 100, e nao há problema em acrescentar. Reduzir o numero de vms é evitavel porque destroy e recria as outras. \
+O modo com keys estáveis vai ser adicionado a um repositorio não publco \ 
+Com count é melhor para criar Vm's em massa, por exemplo 100, e nao há problema em acrescentar. Reduzir o numero de vms é evitavel porque destroy e recria as outras \
 
 Para VMs em Spoke o blocvo de codigo é semelhante
 
