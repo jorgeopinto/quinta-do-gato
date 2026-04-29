@@ -222,7 +222,8 @@ hub_to_spoke_use_remote_gateways   = false
 ---
 
 ## COMPUTE -> compute.auto.tfvars
-Neste ficheiro adicionamos virtual machines e decidimos a que HUB/SPOKE vai pertencer e a Subnet como por exemplo: 
+Neste ficheiro adicionamos virtual machines "APENAS LINUX" e decidimos a que HUB/SPOKE vai pertencer e a Subnet como por exemplo:\
+Vou adicionar um vm a Vnet HUB1 na subnet "snet-NVA
 
 ```hcl
 hub_virtual_machines = {
@@ -230,7 +231,7 @@ hub_virtual_machines = {
   hub1 = {
     "vm-mgmt" = {
       name           = "vm-hub1-mgmt"
-      count          = 0 #reduzir o count vai SEMPRE destruir recursos e recriar.
+      count          = 1 #reduzir o count vai SEMPRE destruir recursos e recriar.
       #adicionar funciona bem e não causa destruições
       # evitar destruições, tem de se usar keys estáveis e não count
       vm_size        = "Standard_D2s_v3"
@@ -245,8 +246,8 @@ hub_virtual_machines = {
   }
 }
 ```
-O modo com keys estáveis vai ser adicionado a um repositorio nao publco./ 
-com count é melhor para criar Vm's em massa, por exemplo 100, e nao há problema em acrescentar. Reduzir o numero de vms é evitavel porque destroy e recria as outras./
+O modo com keys estáveis vai ser adicionado a um repositorio não publco.\ 
+com count é melhor para criar Vm's em massa, por exemplo 100, e nao há problema em acrescentar. Reduzir o numero de vms é evitavel porque destroy e recria as outras.\
 
 para VS em Spoke o blocvo de codigo é semelhante
 
