@@ -223,7 +223,7 @@ hub_to_spoke_use_remote_gateways   = false
 
 ## COMPUTE -> compute.auto.tfvars
 Neste ficheiro adicionamos virtual machines "APENAS LINUX" e decidimos a que HUB/SPOKE vai pertencer e a Subnet como por exemplo:\
-Vou adicionar um vm a Vnet HUB1 na subnet "snet-NVA
+Vou adicionar um vma a Vnet HUB1 na subnet "snet-NVA
 
 ```hcl
 hub_virtual_machines = {
@@ -246,10 +246,10 @@ hub_virtual_machines = {
   }
 }
 ```
-O modo com keys estáveis vai ser adicionado a um repositorio não publco.\ 
-com count é melhor para criar Vm's em massa, por exemplo 100, e nao há problema em acrescentar. Reduzir o numero de vms é evitavel porque destroy e recria as outras.\
+O modo com keys estáveis vai ser adicionado a um repositorio não publco. \ 
+Com count é melhor para criar Vm's em massa, por exemplo 100, e nao há problema em acrescentar. Reduzir o numero de vms é evitavel porque destroy e recria as outras. \
 
-para VS em Spoke o blocvo de codigo é semelhante
+Para VMs em Spoke o blocvo de codigo é semelhante
 
 ```hcl
 spoke_virtual_machines = {
