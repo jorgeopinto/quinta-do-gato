@@ -151,7 +151,7 @@ spokes = {
 ### Aplicar NSGs a subnets (HUB ou Spoke)
 
 Em `network.auto.tfvars`, adiciona `nsg_rules` à subnet desejada:
-NOTA: abaixo tem exemplo para modo unicom, ou seja uma porta src ou des, uma range IP's src dest, no entanto está adaptado a multi se alterar para plural com a seguintge estrotura
+NOTA: abaixo tem exemplo para modo unico, ou seja uma porta src ou dest, uma range IP's src dest, no entanto está adaptado a multi se alterar para plural com a seguintge estrutura
 ```hcl
 source_address_prefixes     = [
          "1.2.3.4/32", <- não esquecer a virgula
