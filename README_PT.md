@@ -101,9 +101,9 @@ terraform destroy
 
 ---
 
-## Configuração Avançada
+## Configurações ->  APENAS NECESSITAMOS DE USAR FICHEIROS X.AUTO.TFVARS PARA CONTRUIR A NOSSA REDE E ADICIONAR RECURSOS
 
-### Adicionar um novo HUB
+### Adicionar um novo HUB -> network.auto.tfvars
 
 Em `network.auto.tfvars`, adiciona uma nova entrada no mapa `hubs`:
 
@@ -120,7 +120,7 @@ hubs = {
 
 ---
 
-### Adicionar um novo Spoke e associar a um HUB
+### Adicionar um novo Spoke e associar a um HUB -> network.auto.tfvars
 
 Em `network.auto.tfvars`, adiciona uma nova entrada no mapa `spokes` e indica o HUB de destino:
 
@@ -148,7 +148,7 @@ spokes = {
 
 ---
 
-### Aplicar NSGs a subnets (HUB ou Spoke)
+### Aplicar NSGs a subnets (HUB ou Spoke) -> network.auto.tfvars
 
 Em `network.auto.tfvars`, adiciona `nsg_rules` à subnet desejada:
 NOTA: abaixo tem exemplo para modo unico, ou seja uma porta src ou dest, uma range IP's src dest, no entanto está adaptado a multi se alterar para plural com a seguintge estrutura
@@ -189,7 +189,7 @@ subnets = [
 
 ---
 
-### Peering entre Spokes e HUBs
+### Peering entre Spokes e HUBs ->  network.auto.tfvars
 
 Os peerings são criados automaticamente via `for_each`. As configurações de cada lado do peering podem ser definidas individualmente.
 
@@ -218,3 +218,49 @@ hub_to_spoke_use_remote_gateways   = false
 | `spoke_vnet_ids`    | IDs das VNets Spoke                |
 | `spoke_subnet_ids`  | IDs das subnets por Spoke          |
 | `peering_ids`       | IDs dos peerings Hub ↔ Spoke       |
+
+---
+
+## COMPUTE -> compute.auto.tfvars
+Neste ficheiro adicionamos virtual machines e decidimos a que HUB/SPOKE vai pertencer e a Subnet como por exemplo: 
+
+```hcl
+hub_virtual_machines = {
+  # "hub1" deve corresponder à key do teu map `hubs`
+  hub1 = {
+    "vm-mgmt" = {
+      name           = "vm-hub1-mgmt"
+      count          = 0 #reduzir o count vai SEMPRE destruir recursos e recriar.
+      #adicionar funciona bem e não causa destruições
+      # evitar destruições, tem de se usar keys estáveis e não count
+      vm_size        = "Standard_D2s_v3"
+      subnet_name    = "snet-NVA"   # nome exato do subnet definido nos hubs
+      os_disk_type   = "Standard_LRS"
+      os_disk_size_gb = 30
+      # image é opcional; não existindo usa Ubuntu 24.04 LTS por defeito declarado nas variaveis do modulo
+
+      #ssh_public_key -> já é injectado no TF_VAR do github
+      admin_username = "jorge"
+    }
+  }
+}
+```
+O modo com keys estáveis vai ser adicionado a um repositorio nao publco./ 
+com count é melhor para criar Vm's em massa, por exemplo 100, e nao há problema em acrescentar. Reduzir o numero de vms é evitavel porque destroy e recria as outras./
+
+para VS em Spoke o blocvo de codigo é semelhante
+
+```hcl
+spoke_virtual_machines = {
+  # "spoke1" deve corresponder à key do teu map `spokes`
+  
+  spoke1 = {
+    "vm-app" = {
+      name           = "vm-spoke1-app"
+      count          = 1 
+      vm_size        = "Standard_D2s_v3"
+      subnet_name    = "snet-data"          # nome exato do subnet definido nos spokes
+      (...)
+    }
+  }
+```
