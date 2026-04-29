@@ -229,7 +229,7 @@ Existem 5 tipos de next HOP:\
 VirtualMetworkGateway -> Enviar o tráfego para o Gateway, para on-premisses (VPN Gateway ou ExpressRoute Gateway)\
 VirtualAppliance -> aponta para um appliance (NVA), firewall, e é o unico que necessita next_hop_in_ip_address = IP\
 Internet -> aponta para 0.0.0.0/0, mas cuidado aqui porque o address_prefix (range destino) tem de ser publico. Isto nao faz NAT\
-VirtualNetwork -> O trafego  deve ser encaminhado internamente, dentro da propria vnet. Força o tráfego fique dentro da VNet. Azure j´faz isso por defeito.\
+VirtualNetwork -> O trafego  deve ser encaminhado internamente, dentro da propria vnet. Força o tráfego fique dentro da VNet. Azure já faz isso por defeito.\
 none -> Não há next-hop. Descarta o tráfego\
 
 ---
