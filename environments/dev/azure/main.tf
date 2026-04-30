@@ -301,7 +301,7 @@ module "hub_vms" {
       image           = each.value.vm.image
 
       admin_username  = each.value.vm.admin_username
-
+      public_ip       = try(each.value.vm.public_ip, false)
     }
   }
 
@@ -333,6 +333,7 @@ module "spoke_vms" {
 
       admin_username  = each.value.vm.admin_username
       #ssh_public_key  = each.value.vm.ssh_public_key
+      public_ip       = try(each.value.vm.public_ip, false)
     }
   }
 

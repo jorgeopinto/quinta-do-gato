@@ -34,6 +34,7 @@ variable "virtual_machines" {
       version   = "latest"
     })
     admin_username  = string
+    public_ip = bool
     
   }))
   default = {}

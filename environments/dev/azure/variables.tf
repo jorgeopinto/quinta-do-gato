@@ -185,6 +185,7 @@ variable "hub_virtual_machines" {
       version   = string
     }), null)
     admin_username  = string
+    public_ip = bool
     #AZURE_KEY_PUB   = optional(string,null)
   })))
   default = {}
@@ -206,6 +207,7 @@ variable "spoke_virtual_machines" {
       version   = string
     }), null)
     admin_username  = string
+    public_ip = bool
     #ssh_public_key  = optional(string,null)
   })))
   default = {}

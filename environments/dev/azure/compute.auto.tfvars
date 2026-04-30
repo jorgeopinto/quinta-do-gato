@@ -25,67 +25,32 @@ hub_virtual_machines = {
 
       #ssh_public_key -> já é injectado no TF_VAR do github
       admin_username = "jorge"
+      public_ip = true
+    
+
     }
   }
 }
 
-# ─────────────────────────────────────────
-# VMs nos SPOKES
-# Estrutura: spoke_key → vm_key → definição
-# ─────────────────────────────────────────
 
-/*
 spoke_virtual_machines = {
-  # "spoke1" deve corresponder à key do teu map `spokes`
-  
-  spoke1 = {
-    "vm-app" = {
-      name           = "vm-spoke1-app"
-      count          = 1 #reduzir o count vai SEMPRE destruir recursos e recriar.
+    spoke3 = {
+    "vm-mgmt" = {
+      name           = "vm-spoke3-compute"
+      count          = 0 #reduzir o count vai SEMPRE destruir recursos e recriar.
       #adicionar funciona bem e não causa destruições
       # evitar destruições, tem de se usar keys estáveis e não count
       vm_size        = "Standard_D2s_v3"
-      subnet_name    = "snet-data"          # nome exato do subnet definido nos spokes
-      os_disk_type   = "Standard_LRS"
-      os_disk_size_gb = 64
-      
-      #ssh_public_key -> já é injectado no TF_VAR do github
-      admin_username = "jorge"
-    }
-  }
-
-    "vm-db" = {
-      name           = "vm-spoke1-db"
-      count = 1
-      vm_size        = "Standard_D4s_v3"
-      subnet_name    = "snet-data"
-      os_disk_type   = "Premium_LRS"
-      os_disk_size_gb = 128
-      # Exemplo com imagem personalizada (ex: Debian)
-      image = {
-        publisher = "Canonical"
-        offer     = "ubuntu-24_04-lts"
-        sku       = "server"
-        version   = "latest"
-      }
-      
-      #ssh_public_key = Declarada dentro do github
-      admin_username = "jorge"
-    }
-  }
-
-  spoke3 = {
-    "vm-app" = {
-      name           = "vm-spoke3-app"
-      count          = 2 #a quantidade de vms que quero aqui criar
-      vm_size        = "Standard_D2s_v3"
-      subnet_name    = "snet-compute"
+      subnet_name    = "snet-compute"   # nome exato do subnet definido nos hubs
       os_disk_type   = "Standard_LRS"
       os_disk_size_gb = 30
+      # image é opcional; não existindo usa Ubuntu 24.04 LTS por defeito declarado nas variaveis do modulo
 
-      #ssh_public_key = Declarada dentro do github
+      #ssh_public_key -> já é injectado no TF_VAR do github
       admin_username = "jorge"
+      public_ip = false
+    
+
     }
   }
 }
-*/
