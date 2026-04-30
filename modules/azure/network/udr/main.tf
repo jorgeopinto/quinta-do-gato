@@ -5,6 +5,7 @@ resource "azurerm_route_table" "rt" {
   location            = var.location
   resource_group_name = var.resource_group_name
   bgp_route_propagation_enabled = each.value.propagate_gateway_routes
+  
   tags                = var.tags
 }
 
@@ -27,6 +28,10 @@ resource "azurerm_route" "routes" {
   address_prefix         = each.value.route.address_prefix
   next_hop_type          = each.value.route.next_hop_type
   next_hop_in_ip_address = lookup(each.value.route, "next_hop_in_ip_address", null)
+
+    depends_on = [
+    azurerm_route_table.rt,
+  ]
 }
 
 #associação da route table à subnet pretendida

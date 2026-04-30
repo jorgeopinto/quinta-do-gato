@@ -149,7 +149,9 @@ module "hub_nsgs" {
     if length(s.nsg_rules) > 0
   }
 
-  depends_on = [module.hub_vnet]
+  depends_on = [
+    module.hub_vnet,
+    module.vpn_s2s]
 }
 # ─────────────────────────────────────────
 # UDRSs por Subnet (Hub)
@@ -172,7 +174,11 @@ module "hub_udrs" {
     if length(s.udr_routes) > 0
   }
 
-  depends_on = [module.hub_vnet]
+    depends_on = [
+    module.hub_vnet,
+    module.vpn_s2s,
+    module.hub_nsgs
+  ]
 }
 
 
