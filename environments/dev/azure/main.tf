@@ -358,12 +358,19 @@ module "vpn_s2s" {
   location            = var.location
   gateway_subnet_id   = module.hub_vnet[each.key].subnet_ids["GatewaySubnet"]
 
+  # VPN Gateway
   type                 = each.value.type
   vpn_type             = each.value.vpn_type
   active_active        = each.value.active_active
   enable_bgp           = each.value.enable_bgp
   sku                  = each.value.sku
+  
+  # Public IP
+  pip_allocation_method = each.value.pip_allocation_method
+  pip_sku               = each.value.pip_sku
+  pip_zones             = each.value.pip_zones
 
+  # On‑prem
   onprem_public_ip     = each.value.onprem_public_ip
   onprem_address_space = each.value.onprem_address_space
   shared_key           = each.value.shared_key

@@ -226,6 +226,10 @@ variable "vpn_s2s" {
     enable_bgp           = bool
     sku                  = string
 
+    pip_allocation_method = string
+    pip_sku               = string
+    pip_zones             = list(string)
+
     onprem_public_ip     = string
     onprem_address_space = list(string)
     shared_key           = string

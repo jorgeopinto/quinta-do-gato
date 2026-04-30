@@ -51,3 +51,15 @@ variable "onprem_address_space" {
 variable "shared_key" {
   type = string
 }
+
+variable "pip_allocation_method" {
+  type = string
+}
+
+variable "pip_sku" {
+  type = string
+}
+
+variable "pip_zones" {
+  type = list(string)
+}
