@@ -2,7 +2,7 @@ resource "azurerm_public_ip" "vpn_gw_pip" {
   name                = "pip-vpngw-${var.hub_key}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   sku                 = "Standard"
 }
 
