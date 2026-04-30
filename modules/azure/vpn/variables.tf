@@ -32,7 +32,13 @@ variable "enable_bgp" {
 
 variable "sku" {
   type = string
+
+  validation {
+    condition = contains(["VpnGw1AZ", "VpnGw2AZ", "VpnGw3AZ", "VpnGw4AZ", "VpnGw5AZ"], var.sku)
+    error_message = "SKU inválido. Apenas SKUs AZ são permitidos: VpnGw1AZ–VpnGw5AZ."
+  }
 }
+
 
 variable "onprem_public_ip" {
   type = string
