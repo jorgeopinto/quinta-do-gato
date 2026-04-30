@@ -14,7 +14,7 @@ hub_virtual_machines = {
   hub1 = {
     "vm-mgmt" = {
       name           = "vm-hub1-mgmt"
-      count          = 1 #reduzir o count vai SEMPRE destruir recursos e recriar.
+      count          = 0 #reduzir o count vai SEMPRE destruir recursos e recriar.
       #adicionar funciona bem e não causa destruições
       # evitar destruições, tem de se usar keys estáveis e não count
       vm_size        = "Standard_D2s_v3"
@@ -37,7 +37,7 @@ spoke_virtual_machines = {
     spoke3 = {
     "vm-mgmt" = {
       name           = "vm-spoke3-compute"
-      count          = 1 #reduzir o count vai SEMPRE destruir recursos e recriar.
+      count          = 0 #reduzir o count vai SEMPRE destruir recursos e recriar.
       #adicionar funciona bem e não causa destruições
       # evitar destruições, tem de se usar keys estáveis e não count
       vm_size        = "Standard_D2s_v3"
