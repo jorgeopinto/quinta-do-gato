@@ -224,13 +224,13 @@ UDR Instructions:
 propagate_gateway_routes, which sits outside the block, defaults to "true", so it wouldn't even be necessary if we want to receive routes coming from on-premises via VPN or ExpressRoute. However, for consistency, it should always accompany the udr_routes block.\
 When set to "false", we do not want to receive routes from on-premises. This option is important for maintaining consistency in peerings — we can set all of them to "use remote gateway", for example.
 
-There are 5 types of next HOP:\
+There are 5 types of next HOP:
 
 VirtualNetworkGateway → Sends traffic to the Gateway, towards on-premises (VPN Gateway or ExpressRoute Gateway)\
 VirtualAppliance → Points to an appliance (NVA), firewall, and is the only one that requires next_hop_in_ip_address = IP\
 Internet → Points to 0.0.0.0/0, but be careful here because the address_prefix (destination range) must be public. This does not perform NAT\
 VirtualNetwork → Traffic should be routed internally, within the VNet itself. Forces traffic to stay inside the VNet. Azure already does this by default.\
-none → There is no next-hop. Discards the traffic\
+none → There is no next-hop. Discards the traffic
 
 ---
 
