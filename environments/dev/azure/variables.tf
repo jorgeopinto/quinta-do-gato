@@ -212,3 +212,22 @@ variable "spoke_virtual_machines" {
   })))
   default = {}
 }
+# ─────────────────────────────────────────
+# declarar variaveis a usar na VPN 
+# ─────────────────────────────────────────
+
+variable "vpn_s2s" {
+  type = map(object({
+    enabled              = bool
+
+    type                 = string
+    vpn_type             = string
+    active_active        = bool
+    enable_bgp           = bool
+    sku                  = string
+
+    onprem_public_ip     = string
+    onprem_address_space = list(string)
+    shared_key           = string
+  }))
+}

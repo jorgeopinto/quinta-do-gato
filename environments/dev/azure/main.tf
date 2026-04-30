@@ -339,3 +339,32 @@ module "spoke_vms" {
 
   depends_on = [module.spoke_vnets]
 }
+
+# ─────────────────────────────────────────
+# VPN para varios HUBs
+# ─────────────────────────────────────────
+
+module "vpn_s2s" {
+  source = "../../../modules/azure/vpn"
+
+  for_each = {
+    for hub_key, cfg in var.vpn_s2s :
+    hub_key => cfg
+    if cfg.enabled
+  }
+
+  hub_key             = each.key
+  resource_group_name = azurerm_resource_group.hub[each.key].name
+  location            = var.location
+  gateway_subnet_id   = module.hub_vnet[each.key].subnet_ids["GatewaySubnet"]
+
+  type                 = each.value.type
+  vpn_type             = each.value.vpn_type
+  active_active        = each.value.active_active
+  enable_bgp           = each.value.enable_bgp
+  sku                  = each.value.sku
+
+  onprem_public_ip     = each.value.onprem_public_ip
+  onprem_address_space = each.value.onprem_address_space
+  shared_key           = each.value.shared_key
+}
