@@ -6,20 +6,20 @@
 
 ```
                     ┌─────────────────────────────┐
-                    │         HUB VNet             │
-                    │       10.0.0.0/16            │
-                    │                              │
-                    │  ┌──────────────────────┐    │
-                    │  │  GatewaySubnet        │    │
-                    │  │  10.0.0.0/27          │    │
-                    │  ├──────────────────────┤    │
-                    │  │  AzureFirewallSubnet  │    │
-                    │  │  10.0.1.0/26          │    │
-                    │  ├──────────────────────┤    │
-                    │  │  snet-management      │    │
-                    │  │  10.0.2.0/24          │    │
-                    │  └──────────────────────┘    │
-                    └──────────────────────────────┘
+                    │         HUB VNet            │
+                    │       10.0.0.0/16           │
+                    │                             │
+                    │  ┌──────────────────────┐   │
+                    │  │  GatewaySubnet       │   │
+                    │  │  10.0.0.0/27         │   │
+                    │  ├──────────────────────┤   │
+                    │  │  AzureFirewallSubnet │   │
+                    │  │  10.0.1.0/26         │   │
+                    │  ├──────────────────────┤   │
+                    │  │  snet-management     │   │
+                    │  │  10.0.2.0/24         │   │
+                    │  └──────────────────────┘   │
+                    └─────────────────────────────┘
                        /           |           \
                  Peering        Peering       Peering
                   /               |               \
@@ -27,8 +27,8 @@
    │  SPOKE App   │   │  SPOKE Data  │   │ SPOKE Shared │
    │ 10.1.0.0/16  │   │ 10.2.0.0/16  │   │ 10.3.0.0/16  │
    │              │   │              │   │              │
-   │ snet-frontend│   │ snet-databases│  │ snet-monitor │
-   │ snet-backend │   │ snet-analytics│  │ snet-devops  │
+   │ snet-frontend│   │snet-databases│   │ snet-monitor │
+   │ snet-backend │   │snet-analytics│   │ snet-devops  │
    └──────────────┘   └──────────────┘   └──────────────┘
 ```
 
@@ -53,7 +53,11 @@ modules/azure/
 │   │   ├── main.tf
 │   │   ├── variables.tf
 │   │   └── outputs.tf
-│   └── nsg/                 # Network Security Groups module
+│   ├── nsg/                 # Network Security Groups module
+│   |   ├── main.tf
+│   |   ├── variables.tf
+│   |   └── outputs.tf
+|   └── udr/                 # Route table Module
 │       ├── main.tf
 │       ├── variables.tf
 │       └── outputs.tf
@@ -186,6 +190,47 @@ subnets = [
   }
 ]
 ```
+### Applying UDRs to subnets (HUB or Spoke) -> network.auto.tfvars
+
+In `network.auto.tfvars`, add `nsg_rules` to the desired subnet.\
+Similarly to NSG, it is placed inside the subnet we want to associate, which in turn sits inside the HUB or SPOKE VNet.\
+There is only one additional parameter, propagate_gateway_routes, which is of importance.\ 
+
+```hcl
+subnets = [
+  {
+    name             = "snet-compute"
+    address_prefixes = ["10.200.1.0/24"]
+    nsg_rules = []
+    propagate_gateway_routes = true  # NÃO propagar rotas do gateway. Só letra minuscula
+    udr_routes = [
+        {
+          name                   = "route-to-firewall"
+          address_prefix         = "0.0.0.0/0"
+          next_hop_type          = "VirtualAppliance"
+          next_hop_in_ip_address = "10.1.2.4"
+        },
+        {
+          name           = "route-to-onprem"
+          address_prefix = "192.168.0.0/16"
+          next_hop_type  = "VirtualNetworkGateway"
+        }
+      ]
+  }
+]
+```
+UDR Instructions:
+
+propagate_gateway_routes, which sits outside the block, defaults to "true", so it wouldn't even be necessary if we want to receive routes coming from on-premises via VPN or ExpressRoute. However, for consistency, it should always accompany the udr_routes block.\
+When set to "false", we do not want to receive routes from on-premises. This option is important for maintaining consistency in peerings — we can set all of them to "use remote gateway", for example.
+
+There are 5 types of next HOP:\
+
+VirtualNetworkGateway → Sends traffic to the Gateway, towards on-premises (VPN Gateway or ExpressRoute Gateway)\
+VirtualAppliance → Points to an appliance (NVA), firewall, and is the only one that requires next_hop_in_ip_address = IP\
+Internet → Points to 0.0.0.0/0, but be careful here because the address_prefix (destination range) must be public. This does not perform NAT\
+VirtualNetwork → Traffic should be routed internally, within the VNet itself. Forces traffic to stay inside the VNet. Azure already does this by default.\
+none → There is no next-hop. Discards the traffic\
 
 ---
 
