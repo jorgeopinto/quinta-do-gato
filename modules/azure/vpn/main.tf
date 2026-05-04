@@ -45,6 +45,7 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
       private_ip_address_allocation = "Dynamic"
       subnet_id                     = var.gateway_subnet_id
     }
+  }
 }
 
 resource "azurerm_local_network_gateway" "onprem" {
