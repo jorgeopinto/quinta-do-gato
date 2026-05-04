@@ -230,6 +230,10 @@ variable "vpn_s2s" {
     pip_sku               = string
     pip_zones             = list(string)
 
+    pip2_allocation_method = string
+    pip2_sku               = string
+    pip2_zones             = list(string)
+
     onprem_public_ip     = string
     onprem_address_space = list(string)
     shared_key           = string

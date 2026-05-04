@@ -63,3 +63,18 @@ variable "pip_sku" {
 variable "pip_zones" {
   type = list(string)
 }
+
+variable "pip2_allocation_method" {
+  type = string
+  default = null
+}
+
+variable "pip2_sku" {
+  type = string
+  default = null
+}
+
+variable "pip2_zones" {
+  type = list(string)
+  default = null
+}

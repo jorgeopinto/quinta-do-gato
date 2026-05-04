@@ -377,6 +377,11 @@ module "vpn_s2s" {
   pip_sku               = each.value.pip_sku
   pip_zones             = each.value.pip_zones
 
+  # Segundo PIP caso seja A-A
+  pip2_allocation_method = each.value.pip2_allocation_method
+  pip2_sku               = each.value.pip2_sku
+  pip2_zones             = each.value.pip2_zones
+
   # On‑prem
   onprem_public_ip     = each.value.onprem_public_ip
   onprem_address_space = each.value.onprem_address_space

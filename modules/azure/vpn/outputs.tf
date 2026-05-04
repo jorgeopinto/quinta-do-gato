@@ -1,5 +1,11 @@
-output "vpn_gateway_public_ip" {
-  value = azurerm_public_ip.vpn_gw_pip.ip_address
+output "vpn_gateway_public_ip1" {
+  description = "Public IP principal do VPN Gateway"
+  value       = azurerm_public_ip.vpn_gw_pip1.ip_address
+}
+
+output "vpn_gateway_public_ip2" {
+  description = "Segundo Public IP do VPN Gateway (Active-Active)"
+  value       = var.active_active ? azurerm_public_ip.vpn_gw_pip2[0].ip_address : null
 }
 
 output "vpn_gateway_id" {

@@ -13,6 +13,11 @@ vpn_s2s = {
     pip_allocation_method = "Static"
     pip_sku               = "Standard"
     pip_zones             = ["1", "2", "3"]
+
+    # Segundo PIP (só usado se active_active = true)
+    pip2_allocation_method = "Static"
+    pip2_sku               = "Standard"
+    pip2_zones             = ["1", "2", "3"]
     
     #ON-PREM
     onprem_public_ip     = "85.241.235.71"
