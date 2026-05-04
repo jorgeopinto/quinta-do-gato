@@ -5,7 +5,7 @@ vpn_s2s = {
     #VPN Gateway
     type                 = "Vpn"
     vpn_type             = "RouteBased"
-    active_active        = false
+    active_active        = true
     enable_bgp           = false
     sku                  = "VpnGw1AZ"
     
