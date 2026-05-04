@@ -179,6 +179,7 @@ module "hub_udrs" {
     module.vpn_s2s,
     module.hub_nsgs
   ]
+  depends_on = [module.hub_vnet]
 }
 
 
@@ -380,4 +381,6 @@ module "vpn_s2s" {
   onprem_public_ip     = each.value.onprem_public_ip
   onprem_address_space = each.value.onprem_address_space
   shared_key           = each.value.shared_key
+
+  depends_on = [module.hub_vnet]
 }
