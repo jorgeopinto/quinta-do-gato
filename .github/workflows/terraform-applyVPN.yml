@@ -28,6 +28,5 @@ jobs:
       run: |
         terraform init
         terraform apply -auto-approve \
-          -var-file="network.auto.tfvars" \
-          -var-file="compute.auto.tfvars"
+          -var-file="vpn.auto.tfvars" \
       working-directory: environments/dev/azure
