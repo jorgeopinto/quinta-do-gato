@@ -27,5 +27,5 @@ jobs:
     - name: Terraform Apply
       run: |
         terraform init
-        terraform apply -auto-approve -var-file="network.auto.tfvars"
+        terraform apply -auto-approve 
       working-directory: environments/dev/azure

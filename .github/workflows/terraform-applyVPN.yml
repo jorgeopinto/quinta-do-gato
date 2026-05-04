@@ -27,6 +27,5 @@ jobs:
     - name: Terraform Apply VPN
       run: |
         terraform init
-        terraform apply -auto-approve \
-          -var-file="vpn.auto.tfvars" \
+        terraform apply -auto-approve -var-file="vpn.tfvars"
       working-directory: environments/dev/azure
