@@ -104,6 +104,7 @@ hubs = {
       }
     ] 
   }
+  /*
     hub2 ={
     hub_resource_group_name      = "QDG_network_dev_hub2"
     hub_vnet_name                = "vnet-hub"
@@ -158,6 +159,7 @@ hubs = {
       }
     ] 
   }
+  */
 }
 
 
@@ -218,7 +220,7 @@ spokes = {
   }
   */
   # ── Spoke 3: compute- storage - kubernets ───────────────────
-  
+  /*
   spoke3 = {
     hub = "hub2"
     resource_group_name = "rg-spoke-compute"
@@ -283,6 +285,7 @@ spokes = {
       }
     ]
   }
+  */
 
   # ── Spoke 4: Shared Services ───────────────────
   /*
