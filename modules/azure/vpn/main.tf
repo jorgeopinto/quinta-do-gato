@@ -33,7 +33,7 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
 
   ip_configuration {
     name                          = "vpngw-ipconfig"
-    public_ip_address_id          = azurerm_public_ip.vpn_gw_pip.id
+    public_ip_address_id          = azurerm_public_ip.vpn_gw_pip1.id
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = var.gateway_subnet_id
   }

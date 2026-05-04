@@ -20,14 +20,22 @@ output "local_network_gateway_id" {
   value = azurerm_local_network_gateway.onprem.id
 }
 
-output "vpn_gateway_public_ip_name" {
-  value = azurerm_public_ip.vpn_gw_pip.name
+output "vpn_gateway_public_ip1_name" {
+  value = azurerm_public_ip.vpn_gw_pip1.name
+}
+
+output "vpn_gateway_public_ip2_name" {
+  value = var.active_active ? azurerm_public_ip.vpn_gw_pip2[0].name : null
 }
 
 output "vpn_gateway_sku" {
   value = azurerm_virtual_network_gateway.vpn_gw.sku
 }
 
-output "vpn_gateway_pip_zones" {
-  value = azurerm_public_ip.vpn_gw_pip.zones
+output "vpn_gateway_public_ip1_zones" {
+  value = azurerm_public_ip.vpn_gw_pip1.zones
+}
+
+output "vpn_gateway_public_ip2_zones" {
+  value = var.active_active ? azurerm_public_ip.vpn_gw_pip2[0].zones : null
 }
