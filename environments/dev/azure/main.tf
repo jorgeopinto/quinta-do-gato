@@ -179,7 +179,7 @@ module "hub_udrs" {
     module.vpn_s2s,
     module.hub_nsgs
   ]
-  depends_on = [module.hub_vnet]
+  
 }
 
 
