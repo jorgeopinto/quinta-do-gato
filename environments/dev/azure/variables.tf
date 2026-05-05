@@ -238,11 +238,19 @@ variable "vpn_s2s" {
     pip2_sku               = string
     pip2_zones             = list(string)
 
+    # Parâmetros BGP do Azure
+    azure_bgp_asn     = optional(number)
+    azure_bgp_peer_ip = optional(string)
+
     # Multi-site
     sites = map(object({
       onprem_public_ip     = string
       onprem_address_space = list(string)
       shared_key           = string
+
+      # BGP opcional
+      onprem_bgp_asn     = optional(number)
+      onprem_bgp_peer_ip = optional(string)
     }))
   }))
 }

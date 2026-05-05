@@ -6,7 +6,12 @@ vpn_s2s = {
     type                 = "Vpn"
     vpn_type             = "RouteBased"
     active_active        = false
+    
     enable_bgp           = false
+    azure_bgp_asn     = 65515
+    #Tambem pode ser usado APIPA
+    azure_bgp_peer_ip = "10.10.255.30"   # IP BGP do Azure (dentro do GatewaySubnet)
+
     sku                  = "VpnGw1AZ"
     
     # Public IP do Gateway
@@ -27,6 +32,10 @@ vpn_s2s = {
           "192.168.0.0/24",
           "192.168.1.0/24"
         ]
+        
+        onprem_bgp_asn        = 65001
+        onprem_bgp_peer_ip    = "192.168.0.1"
+        
         shared_key = "CHAVE_SUPER_SECRETA_1"
       }
 
@@ -36,6 +45,9 @@ vpn_s2s = {
           "10.10.0.0/24"
         ]
         shared_key = "CHAVE_SUPER_SECRETA_2"
+
+        onprem_bgp_asn        = 65002
+        onprem_bgp_peer_ip    = "10.10.0.1"
       }
     }  
   }

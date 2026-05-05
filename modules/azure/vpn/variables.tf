@@ -91,5 +91,18 @@ variable "sites" {
     onprem_public_ip     = string
     onprem_address_space = list(string)
     shared_key           = string
+    # BGP opcional
+    onprem_bgp_asn        = optional(number)
+    onprem_bgp_peer_ip    = optional(string)
   }))
+}
+
+variable "azure_bgp_asn" {
+  type    = number
+  default = 65515
+}
+
+variable "azure_bgp_peer_ip" {
+  type    = string
+  default = null
 }

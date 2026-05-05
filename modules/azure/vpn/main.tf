@@ -45,7 +45,7 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = var.gateway_subnet_id
   }
-    dynamic "ip_configuration" {
+  dynamic "ip_configuration" {
     for_each = var.active_active ? [1] : []
     content {
       name                          = "vpngw-ipconfig2"
@@ -54,6 +54,23 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
       subnet_id                     = var.gateway_subnet_id
     }
   }
+dynamic "bgp_settings" {
+  for_each = var.enable_bgp ? [1] : []
+  content {
+    asn         = var.azure_bgp_asn
+    peer_weight = 0
+
+    # Só adiciona o peer IP se existir
+    dynamic "peering_addresses" {
+      for_each = var.azure_bgp_peer_ip != null ? [1] : []
+      content {
+        ip_configuration_name = "vpngw-ipconfig"
+        apipa_addresses       = [var.azure_bgp_peer_ip]
+      }
+    }
+  }
+}
+
     depends_on = [
     azurerm_public_ip.vpn_gw_pip1,
     azurerm_public_ip.vpn_gw_pip2
@@ -72,6 +89,14 @@ resource "azurerm_local_network_gateway" "onprem" {
 
   gateway_address = each.value.onprem_public_ip
   address_space   = each.value.onprem_address_space
+
+  dynamic "bgp_settings" {
+    for_each = var.enable_bgp ? [1] : []
+    content {
+      asn                 = each.value.onprem_bgp_asn
+      bgp_peering_address = each.value.onprem_bgp_peer_ip
+    }
+  }
 
     depends_on = [
     azurerm_virtual_network_gateway.vpn_gw

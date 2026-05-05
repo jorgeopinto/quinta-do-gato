@@ -383,6 +383,10 @@ module "vpn_s2s" {
   pip2_sku               = each.value.pip2_sku
   pip2_zones             = each.value.pip2_zones
 
+  #Parametro BGP de Azure
+  azure_bgp_asn     = each.value.azure_bgp_asn
+  azure_bgp_peer_ip = each.value.azure_bgp_peer_ip
+
   # Multi-site
   sites = each.value.sites
 
