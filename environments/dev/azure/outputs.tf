@@ -103,6 +103,7 @@ output "vpn_connections" {
     for hub, mod in module.vpn_s2s :
     hub => mod.vpn_connections
   }
+  sensitive = true
 }
 
 # ---------------------------------------------------------
@@ -119,10 +120,9 @@ output "active_hubs" {
 # ---------------------------------------------------------
 
 output "sites_by_hub" {
-  description = "Lista de sites on-prem por hub"
   value = {
-    for hub, mod in module.vpn_s2s :
-    hub => mod.sites
+    for hub, cfg in var.vpn_s2s :
+    hub => cfg.sites
   }
 }
 
