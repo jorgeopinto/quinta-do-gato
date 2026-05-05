@@ -68,7 +68,7 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
 
   type                       = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.vpn_gw.id
-  local_network_gateway_id   = azurerm_local_network_gateway.onprem.id
+  local_network_gateway_id   = azurerm_local_network_gateway.onprem[each.key].id
 
   shared_key = each.value.shared_key
 }

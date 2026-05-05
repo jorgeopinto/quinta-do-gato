@@ -16,8 +16,17 @@ output "vpn_connection_id" {
   value = azurerm_virtual_network_gateway_connection.s2s.id
 }
 
-output "local_network_gateway_id" {
-  value = azurerm_local_network_gateway.onprem.id
+output "local_network_gateways" {
+  description = "Mapa de Local Network Gateways por site"
+  value = {
+    for site, lng in azurerm_local_network_gateway.onprem :
+    site => {
+      id             = lng.id
+      name           = lng.name
+      gateway_ip     = lng.gateway_address
+      address_spaces = lng.address_space
+    }
+  }
 }
 
 output "vpn_gateway_public_ip1_name" {
