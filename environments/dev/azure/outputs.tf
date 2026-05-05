@@ -64,12 +64,6 @@ output "hub_routes" {
   }
 }
 
-output "hub1_gateway_ip1" {
-  value = module.vpn_s2s["hub1"].vpn_gateway_public_ip1
-}
-output "hub1_gateway_ip2" {
-  value = module.vpn_s2s["hub1"].vpn_gateway_public_ip2
-}
 
 # ---------------------------------------------------------
 # VPN Gateways por hub
