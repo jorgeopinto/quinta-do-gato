@@ -1,13 +1,13 @@
 vpn_s2s = {
   hub1 = {
-    enabled              = false
+    enabled              = true
 
     #VPN Gateway
     type                 = "Vpn"
     vpn_type             = "RouteBased"
     active_active        = false
     
-    enable_bgp           = false
+    enable_bgp           = true
     azure_bgp_asn     = 65515
     #Tambem pode ser usado APIPA
     azure_bgp_peer_ip = "10.10.255.30"   # IP BGP do Azure (dentro do GatewaySubnet)
