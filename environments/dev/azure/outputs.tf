@@ -71,6 +71,66 @@ output "hub1_gateway_ip2" {
   value = module.vpn_s2s["hub1"].vpn_gateway_public_ip2
 }
 
+# ---------------------------------------------------------
+# VPN Gateways por hub
+# ---------------------------------------------------------
+
+output "vpn_gateways" {
+  description = "Informação dos VPN Gateways por hub"
+  value = {
+    for hub, mod in module.vpn_s2s :
+    hub => {
+      gateway_ip1 = mod.vpn_gateway_public_ip1
+      gateway_ip2 = mod.vpn_gateway_public_ip2
+      gateway_id  = mod.vpn_gateway_id
+    }
+  }
+}
+
+# ---------------------------------------------------------
+# Local Network Gateways por hub e por site
+# ---------------------------------------------------------
+
+output "local_network_gateways" {
+  description = "Mapa de Local Network Gateways por hub e site"
+  value = {
+    for hub, mod in module.vpn_s2s :
+    hub => mod.local_network_gateways
+  }
+}
+
+# ---------------------------------------------------------
+# VPN Connections por hub e por site
+# ---------------------------------------------------------
+
+output "vpn_connections" {
+  description = "Mapa de VPN Connections por hub e site"
+  value = {
+    for hub, mod in module.vpn_s2s :
+    hub => mod.vpn_connections
+  }
+}
+
+# ---------------------------------------------------------
+# Lista de hubs ativos
+# ---------------------------------------------------------
+
+output "active_hubs" {
+  description = "Lista de hubs com VPN ativa"
+  value       = keys(module.vpn_s2s)
+}
+
+# ---------------------------------------------------------
+# Lista de sites por hub
+# ---------------------------------------------------------
+
+output "sites_by_hub" {
+  description = "Lista de sites on-prem por hub"
+  value = {
+    for hub, mod in module.vpn_s2s :
+    hub => mod.sites
+  }
+}
 
 
 
