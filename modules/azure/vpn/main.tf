@@ -66,7 +66,7 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
 resource "azurerm_local_network_gateway" "onprem" {
   for_each = var.sites
 
-  name                = "lng-onprem-${var.hub_key}"
+  name                = "lng-${var.hub_key}-${each.key}"
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -81,7 +81,7 @@ resource "azurerm_local_network_gateway" "onprem" {
 resource "azurerm_virtual_network_gateway_connection" "s2s" {
   for_each = var.sites
 
-  name                = "conn-${var.hub_key}-onprem"
+  name                = "conn-${var.hub_key}-${each.key}"
   location            = var.location
   resource_group_name = var.resource_group_name
 
