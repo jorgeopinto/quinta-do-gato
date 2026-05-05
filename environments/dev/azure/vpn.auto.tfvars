@@ -9,9 +9,8 @@ vpn_s2s = {
     
     enable_bgp           = true
     azure_bgp_asn     = 65515
-    #Tambem pode ser usado APIPA
-    azure_bgp_peer_ip = "10.10.255.30"   # IP BGP do Azure (dentro do GatewaySubnet)
-
+    #Usar APIPA: Azure reserved APIPA range: [169.254.21.0, 169.254.22.255]
+    azure_bgp_peer_ip = "169.254.21.1"   
     sku                  = "VpnGw1AZ"
     
     # Public IP do Gateway
