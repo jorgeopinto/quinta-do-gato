@@ -49,15 +49,19 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
 }
 
 resource "azurerm_local_network_gateway" "onprem" {
+  for_each = var.sites
+
   name                = "lng-onprem-${var.hub_key}"
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  gateway_address = var.onprem_public_ip
-  address_space   = var.onprem_address_space
+  gateway_address = each.value.onprem_public_ip
+  address_space   = each.value.onprem_address_space
 }
 
 resource "azurerm_virtual_network_gateway_connection" "s2s" {
+  for_each = var.sites
+
   name                = "conn-${var.hub_key}-onprem"
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -66,5 +70,5 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
   virtual_network_gateway_id = azurerm_virtual_network_gateway.vpn_gw.id
   local_network_gateway_id   = azurerm_local_network_gateway.onprem.id
 
-  shared_key = var.shared_key
+  shared_key = each.value.shared_key
 }

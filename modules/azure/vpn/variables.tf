@@ -14,6 +14,10 @@ variable "gateway_subnet_id" {
   type = string
 }
 
+# -------------------------
+# VPN Gateway settings
+# -------------------------
+
 variable "type" {
   type = string
 }
@@ -40,17 +44,12 @@ variable "sku" {
 }
 
 
-variable "onprem_public_ip" {
-  type = string
-}
 
-variable "onprem_address_space" {
-  type = list(string)
-}
 
-variable "shared_key" {
-  type = string
-}
+
+# -------------------------
+# Public IP 1 (sempre criado)
+# -------------------------
 
 variable "pip_allocation_method" {
   type = string
@@ -63,6 +62,10 @@ variable "pip_sku" {
 variable "pip_zones" {
   type = list(string)
 }
+
+# -------------------------
+# Public IP 2 (só se Active-Active)
+# -------------------------
 
 variable "pip2_allocation_method" {
   type = string
@@ -77,4 +80,16 @@ variable "pip2_sku" {
 variable "pip2_zones" {
   type = list(string)
   default = null
+}
+# -------------------------
+# Multi-site On-Premises
+# -------------------------
+
+variable "sites" {
+  description = "Mapa de sites on-premises para multi-site VPN"
+  type = map(object({
+    onprem_public_ip     = string
+    onprem_address_space = list(string)
+    shared_key           = string
+  }))
 }

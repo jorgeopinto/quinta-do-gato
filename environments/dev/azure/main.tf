@@ -354,6 +354,7 @@ module "spoke_vms" {
 module "vpn_s2s" {
   source = "../../../modules/azure/vpn"
 
+  
   for_each = {
     for hub_key, cfg in var.vpn_s2s :
     hub_key => cfg
@@ -382,10 +383,10 @@ module "vpn_s2s" {
   pip2_sku               = each.value.pip2_sku
   pip2_zones             = each.value.pip2_zones
 
-  # On‑prem
-  onprem_public_ip     = each.value.onprem_public_ip
-  onprem_address_space = each.value.onprem_address_space
-  shared_key           = each.value.shared_key
+  # Multi-site
+  sites = each.value.sites
+
+  
 
   depends_on = [module.hub_vnet]
 }

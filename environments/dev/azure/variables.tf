@@ -217,25 +217,32 @@ variable "spoke_virtual_machines" {
 # ─────────────────────────────────────────
 
 variable "vpn_s2s" {
+  description = "Configuração de VPN S2S por hub"
   type = map(object({
     enabled              = bool
 
+    # VPN Gateway
     type                 = string
     vpn_type             = string
     active_active        = bool
     enable_bgp           = bool
     sku                  = string
 
+    # Public IP 1
     pip_allocation_method = string
     pip_sku               = string
     pip_zones             = list(string)
 
+    # Public IP 2 (Active-Active)
     pip2_allocation_method = string
     pip2_sku               = string
     pip2_zones             = list(string)
 
-    onprem_public_ip     = string
-    onprem_address_space = list(string)
-    shared_key           = string
+    # Multi-site
+    sites = map(object({
+      onprem_public_ip     = string
+      onprem_address_space = list(string)
+      shared_key           = string
+    }))
   }))
 }

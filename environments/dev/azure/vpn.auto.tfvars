@@ -19,12 +19,24 @@ vpn_s2s = {
     pip2_sku               = "Standard"
     pip2_zones             = ["1", "2", "3"]
     
-    #ON-PREM
-    onprem_public_ip     = "85.241.235.71"
-    onprem_address_space = [
-      "192.168.0.0/24",
-      "192.168.1.0/24"
-      ]
-    shared_key           = "CHAVE_SUPER_SECRETA"
+    # Vários sites on‑prem
+    sites = {
+      aqui = {
+        onprem_public_ip     = "85.241.235.71"
+        onprem_address_space = [
+          "192.168.0.0/24",
+          "192.168.1.0/24"
+        ]
+        shared_key = "CHAVE_SUPER_SECRETA_1"
+      }
+
+      acola = {
+        onprem_public_ip     = "90.10.10.10"
+        onprem_address_space = [
+          "10.10.0.0/24"
+        ]
+        shared_key = "CHAVE_SUPER_SECRETA_2"
+      }
+    }  
   }
 }
