@@ -12,8 +12,18 @@ output "vpn_gateway_id" {
   value = azurerm_virtual_network_gateway.vpn_gw.id
 }
 
-output "vpn_connection_id" {
-  value = azurerm_virtual_network_gateway_connection.s2s.id
+output "vpn_connections" {
+  description = "Mapa de VPN Connections por site"
+  value = {
+    for site, conn in azurerm_virtual_network_gateway_connection.s2s :
+    site => {
+      id               = conn.id
+      name             = conn.name
+      connection_type  = conn.type
+      shared_key       = conn.shared_key
+      local_gateway_id = conn.local_network_gateway_id
+    }
+  }
 }
 
 output "local_network_gateways" {
