@@ -1,3 +1,6 @@
+###############################################
+# Public IP 1 (sempre criado)
+###############################################
 resource "azurerm_public_ip" "vpn_gw_pip1" {
   name                = "pip-vpngw-${var.hub_key}-1"
   location            = var.location
@@ -7,6 +10,9 @@ resource "azurerm_public_ip" "vpn_gw_pip1" {
   sku                 = var.pip_sku
   zones               = var.pip_zones
 }
+###############################################
+# Public IP 2 (só se Active-Active)
+###############################################
 
 resource "azurerm_public_ip" "vpn_gw_pip2" {
   count               = var.active_active ? 1 : 0
@@ -18,7 +24,9 @@ resource "azurerm_public_ip" "vpn_gw_pip2" {
   sku                 = var.pip2_sku
   zones               = var.pip2_zones
 }
-
+###############################################
+# Virtual Network Gateway
+###############################################
 
 resource "azurerm_virtual_network_gateway" "vpn_gw" {
   name                = "vpngw-${var.hub_key}"
@@ -46,7 +54,14 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
       subnet_id                     = var.gateway_subnet_id
     }
   }
+    depends_on = [
+    azurerm_public_ip.vpn_gw_pip1,
+    azurerm_public_ip.vpn_gw_pip2
+  ]
 }
+###############################################
+# Local Network Gateways (um por site)
+###############################################
 
 resource "azurerm_local_network_gateway" "onprem" {
   for_each = var.sites
@@ -57,6 +72,10 @@ resource "azurerm_local_network_gateway" "onprem" {
 
   gateway_address = each.value.onprem_public_ip
   address_space   = each.value.onprem_address_space
+
+    depends_on = [
+    azurerm_virtual_network_gateway.vpn_gw
+  ]
 }
 
 resource "azurerm_virtual_network_gateway_connection" "s2s" {
@@ -71,4 +90,9 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
   local_network_gateway_id   = azurerm_local_network_gateway.onprem[each.key].id
 
   shared_key = each.value.shared_key
+
+    depends_on = [
+    azurerm_virtual_network_gateway.vpn_gw,
+    azurerm_local_network_gateway.onprem
+  ]
 }
