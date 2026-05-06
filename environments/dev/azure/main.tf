@@ -386,6 +386,7 @@ module "vpn_s2s" {
   #Parametro BGP de Azure
   azure_bgp_asn     = each.value.azure_bgp_asn
   azure_bgp_peer_ip = each.value.azure_bgp_peer_ip
+  azure_bgp_peer_ip2 = each.value.azure_bgp_peer_ip2
 
   # Multi-site
   sites = each.value.sites

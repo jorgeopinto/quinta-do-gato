@@ -54,27 +54,37 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
       subnet_id                     = var.gateway_subnet_id
     }
   }
-dynamic "bgp_settings" {
-  for_each = var.enable_bgp ? [1] : []
-  content {
-    asn         = var.azure_bgp_asn
-    peer_weight = 0
+  dynamic "bgp_settings" {
+    for_each = var.enable_bgp ? [1] : []
+    content {
+      asn         = var.azure_bgp_asn
+      peer_weight = 0
 
-    # Só adiciona o peer IP se existir
-    dynamic "peering_addresses" {
-      for_each = var.azure_bgp_peer_ip != null ? [1] : []
-      content {
-        ip_configuration_name = "vpngw-ipconfig"
-        apipa_addresses       = [var.azure_bgp_peer_ip]
+      # Peer do ipconfig1 (sempre presente)
+      dynamic "peering_addresses" {
+        for_each = var.azure_bgp_peer_ip != null ? [1] : []
+        content {
+          ip_configuration_name = "vpngw-ipconfig"
+          apipa_addresses       = [var.azure_bgp_peer_ip]
+        }
+      }
+
+    # Peer do ipconfig2 (só em active-active)
+      dynamic "peering_addresses" {
+        for_each = var.active_active && var.azure_bgp_peer_ip2 != null ? [1] : []
+        content {
+          ip_configuration_name = "vpngw-ipconfig2"
+          apipa_addresses       = [var.azure_bgp_peer_ip2]
+        }
       }
     }
   }
-}
+
 
     depends_on = [
     azurerm_public_ip.vpn_gw_pip1,
     azurerm_public_ip.vpn_gw_pip2
-  ]
+   ]
 }
 ###############################################
 # Local Network Gateways (um por site)
@@ -120,14 +130,13 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
   bgp_enabled = var.enable_bgp
 
   # APIPA do lado on‑prem (necessário para BGP)
-  /*
   dynamic "custom_bgp_addresses" {
-    for_each = var.enable_bgp ? [1] : []
+    for_each = var.enable_bgp && var.active_active ? [1] : []
     content {
-      primary = each.value.onprem_bgp_peer_ip
+      primary   = var.azure_bgp_peer_ip   # APIPA do ipconfig1
+      secondary = var.azure_bgp_peer_ip2  # APIPA do ipconfig2
     }
   }
-  */
 
     depends_on = [
     azurerm_virtual_network_gateway.vpn_gw,

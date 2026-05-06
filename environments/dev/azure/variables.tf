@@ -241,6 +241,7 @@ variable "vpn_s2s" {
     # Parâmetros BGP do Azure
     azure_bgp_asn     = optional(number)
     azure_bgp_peer_ip = optional(string)
+    azure_bgp_peer_ip2 = optional(string)
 
     # Multi-site
     sites = map(object({

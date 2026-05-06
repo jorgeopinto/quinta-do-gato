@@ -106,3 +106,9 @@ variable "azure_bgp_peer_ip" {
   type    = string
   default = null
 }
+
+variable "azure_bgp_peer_ip2" {
+  type    = string
+  default = null
+  description = "APIPA address para o segundo ip_configuration (active-active + BGP)"
+}

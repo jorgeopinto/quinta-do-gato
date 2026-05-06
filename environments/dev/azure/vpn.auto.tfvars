@@ -1,16 +1,18 @@
 vpn_s2s = {
   hub1 = {
-    enabled              = false
+    enabled              = true
 
     #VPN Gateway
     type                 = "Vpn"
     vpn_type             = "RouteBased"
-    active_active        = false #usar apenas sem BGP
+    active_active        = true #usar apenas sem BGP
     
     enable_bgp           = true
     azure_bgp_asn     = 65515
     #Usar APIPA: Azure reserved APIPA range: [169.254.21.0, 169.254.22.255]
-    azure_bgp_peer_ip = "169.254.21.1"   
+    azure_bgp_peer_ip = "169.254.21.1"
+    azure_bgp_peer_ip2 = "169.254.22.2"
+
     sku                  = "VpnGw1AZ"
     
     # Public IP do Gateway
