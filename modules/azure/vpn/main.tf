@@ -78,6 +78,20 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
         }
       }
     }
+ }
+
+ dynamic "ipsec_policy" {
+    for_each = each.value.ipsec_policy != null ? [each.value.ipsec_policy] : []
+    content {
+      ike_encryption        = ipsec_policy.value.ike_encryption
+      ike_integrity         = ipsec_policy.value.ike_integrity
+      dh_group              = ipsec_policy.value.dh_group
+      ipsec_encryption      = ipsec_policy.value.ipsec_encryption
+      ipsec_integrity       = ipsec_policy.value.ipsec_integrity
+      pfs_group             = ipsec_policy.value.pfs_group
+      sa_lifetime_seconds   = ipsec_policy.value.sa_lifetime_seconds
+      sa_datasize_kilobytes = ipsec_policy.value.sa_datasize_kilobytes
+    }
   }
 
 
@@ -128,6 +142,9 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
 
    # Ativa BGP na Connection quando enable_bgp = true no .tfvars
   bgp_enabled = var.enable_bgp
+
+  connection_mode     = var.connection_mode
+  dpd_timeout_seconds = var.dpd_timeout_seconds 
 
   # APIPA do lado on‑prem (necessário para BGP)
   dynamic "custom_bgp_addresses" {

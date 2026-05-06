@@ -1,6 +1,6 @@
 vpn_s2s = {
   hub1 = {
-    enabled              = false
+    enabled              = true
 
     #VPN Gateway
     type                 = "Vpn"
@@ -38,6 +38,31 @@ vpn_s2s = {
         onprem_bgp_peer_ip    = "192.168.0.1"
         
         shared_key = "CHAVE_SUPER_SECRETA_1"
+
+        ipsec_policy = {
+      # --- Phase 1 (IKE) ---
+          ike_encryption   = "AES256"
+          ike_integrity    = "SHA256"
+          dh_group         = "DHGroup14"
+
+      # --- Phase 2 (IPsec) ---
+          ipsec_encryption = "AES256"
+          ipsec_integrity  = "SHA256"
+          pfs_group        = "PFS2048"
+
+      # Lifetimes
+          sa_lifetime_seconds  = 29000
+          sa_datasize_kilobytes = 102400000
+
+      #connection mode
+          #Default -> qualquer dos lados pode iniciar
+          #InitiatorOnly -> Azure inicia o tunnel
+          #ResponderOnly -> Azure apenas responde, nunca inicia
+          connection_mode      = "InitiatorOnly"
+          # de 5 a 240 segundos
+          dpd_timeout_seconds  = 30     
+    
+    } 
       }
 
       acola = {
@@ -45,11 +70,32 @@ vpn_s2s = {
         onprem_address_space = [
           "10.10.0.0/24"
         ]
-        shared_key = "CHAVE_SUPER_SECRETA_2"
-
         onprem_bgp_asn        = 65002
         onprem_bgp_peer_ip    = "10.10.0.1"
+        
+        shared_key = "CHAVE_SUPER_SECRETA_2"
+
+
+      # Sem ipsec_policy = usa os defaults do Azure
+        ipsec_policy = null
+
       }
     }  
   }
 }
+
+/* ipsec_policy possible values
+---phase 1 ---
+ike_encryption: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES256
+ike_integrity: MD5, SHA1, SHA256, SHA384, GCMAES128, GCMAES256
+dh_group: DHGroup1, DHGroup2, DHGroup14, DHGroup24, DHGroup2048, ECP256, ECP384, None
+---phase 2 ---
+ipsec_encryption: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES192, GCMAES256, None
+ipsec_integrity: MD5, SHA1, SHA256, GCMAES128, GCMAES192, GCMAES256
+pfs_group: ECP256, ECP384, PFS1, PFS2, PFS14, PFS24, PFS2048, PFSMM, None
+
+valores default? 
+
+
+
+*/

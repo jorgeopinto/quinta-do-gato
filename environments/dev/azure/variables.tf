@@ -252,6 +252,20 @@ variable "vpn_s2s" {
       # BGP opcional
       onprem_bgp_asn     = optional(number)
       onprem_bgp_peer_ip = optional(string)
+      
+      #phase1 and phase2 policies
+      ipsec_policy = optional(object({
+        ike_encryption        = string
+        ike_integrity         = string
+        dh_group              = string
+        ipsec_encryption      = string
+        ipsec_integrity       = string
+        pfs_group             = string
+        sa_lifetime_seconds   = number
+        sa_datasize_kilobytes = number
+        connection_mode = string
+        dpd_timeout_seconds = number
+    }))
     }))
   }))
 }
