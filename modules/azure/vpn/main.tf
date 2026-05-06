@@ -80,21 +80,6 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
     }
  }
 
- dynamic "ipsec_policy" {
-    for_each = each.value.ipsec_policy != null ? [each.value.ipsec_policy] : []
-    content {
-      ike_encryption        = ipsec_policy.value.ike_encryption
-      ike_integrity         = ipsec_policy.value.ike_integrity
-      dh_group              = ipsec_policy.value.dh_group
-      ipsec_encryption      = ipsec_policy.value.ipsec_encryption
-      ipsec_integrity       = ipsec_policy.value.ipsec_integrity
-      pfs_group             = ipsec_policy.value.pfs_group
-      sa_lifetime_seconds   = ipsec_policy.value.sa_lifetime_seconds
-      sa_datasize_kilobytes = ipsec_policy.value.sa_datasize_kilobytes
-    }
-  }
-
-
     depends_on = [
     azurerm_public_ip.vpn_gw_pip1,
     azurerm_public_ip.vpn_gw_pip2
@@ -152,6 +137,20 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
     content {
       primary   = var.azure_bgp_peer_ip   # APIPA do ipconfig1
       secondary = var.azure_bgp_peer_ip2  # APIPA do ipconfig2
+    }
+  }
+
+   dynamic "ipsec_policy" {
+    for_each = each.value.ipsec_policy != null ? [each.value.ipsec_policy] : []
+    content {
+      ike_encryption        = ipsec_policy.value.ike_encryption
+      ike_integrity         = ipsec_policy.value.ike_integrity
+      dh_group              = ipsec_policy.value.dh_group
+      ipsec_encryption      = ipsec_policy.value.ipsec_encryption
+      ipsec_integrity       = ipsec_policy.value.ipsec_integrity
+      pfs_group             = ipsec_policy.value.pfs_group
+      sa_lifetime   = ipsec_policy.value.sa_lifetime_seconds
+      sa_datasize = ipsec_policy.value.sa_datasize_kilobytes
     }
   }
 
