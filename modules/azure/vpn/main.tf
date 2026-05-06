@@ -116,6 +116,17 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
 
   shared_key = each.value.shared_key
 
+   # Ativa BGP na Connection quando enable_bgp = true no .tfvars
+  bgp_enabled = each.value.enable_bgp
+
+  # APIPA do lado on‑prem (necessário para BGP)
+  dynamic "custom_bgp_addresses" {
+    for_each = var.enable_bgp ? [1] : []
+    content {
+      primary = each.value.onprem_bgp_peer_ip
+    }
+  }
+
     depends_on = [
     azurerm_virtual_network_gateway.vpn_gw,
     azurerm_local_network_gateway.onprem
