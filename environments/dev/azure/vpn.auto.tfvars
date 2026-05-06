@@ -5,7 +5,7 @@ vpn_s2s = {
     #VPN Gateway
     type                 = "Vpn"
     vpn_type             = "RouteBased"
-    active_active        = true
+    active_active        = false #usar apenas sem BGP
     
     enable_bgp           = true
     azure_bgp_asn     = 65515
