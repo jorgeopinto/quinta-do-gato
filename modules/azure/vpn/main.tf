@@ -54,23 +54,27 @@ resource "azurerm_virtual_network_gateway" "vpn_gw" {
       subnet_id                     = var.gateway_subnet_id
     }
   }
-dynamic "bgp_settings" {
-  for_each = var.enable_bgp ? [1] : []
-  content {
-    asn         = var.azure_bgp_asn
-    peer_weight = 0
-
-    # Só adiciona o peer IP se existir
-    dynamic "peering_addresses" {
-      for_each = var.azure_bgp_peer_ip != null ? [1] : []
-      content {
-        ip_configuration_name = "vpngw-ipconfig"
-        apipa_addresses       = [var.azure_bgp_peer_ip]
-      }
+ # BGP no gateway Azure
+  dynamic "bgp_settings" {
+    for_each = var.enable_bgp ? [1] : []
+    content {
+      asn         = var.azure_bgp_asn
+      peer_weight = 0
     }
   }
-}
 
+  # Custom BGP IP (APIPA) por ipConfiguration
+  dynamic "custom_bgp_ip_addresses" {
+    for_each = var.enable_bgp ? (
+      var.active_active
+      ? ["vpngw-ipconfig", "vpngw-ipconfig2"]
+      : ["vpngw-ipconfig"]
+    ) : []
+    content {
+      ip_configuration_name = custom_bgp_ip_addresses.value
+      custom_bgp_ip_address = var.azure_bgp_peer_ip
+    }
+  }
     depends_on = [
     azurerm_public_ip.vpn_gw_pip1,
     azurerm_public_ip.vpn_gw_pip2
@@ -120,12 +124,14 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
   bgp_enabled = var.enable_bgp
 
   # APIPA do lado on‑prem (necessário para BGP)
+  /*
   dynamic "custom_bgp_addresses" {
     for_each = var.enable_bgp ? [1] : []
     content {
       primary = each.value.onprem_bgp_peer_ip
     }
   }
+  */
 
     depends_on = [
     azurerm_virtual_network_gateway.vpn_gw,
