@@ -1,6 +1,6 @@
 vpn_s2s = {
   hub1 = {
-    enabled              = false
+    enabled              = true
 
     #VPN Gateway
     type                 = "Vpn"

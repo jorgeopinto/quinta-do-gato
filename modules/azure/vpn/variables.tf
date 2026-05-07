@@ -104,6 +104,9 @@ variable "sites" {
       pfs_group             = string
       sa_lifetime_seconds   = number
       sa_datasize_kilobytes = number
+      connection_mode = string
+      dpd_timeout_seconds = number
+
     }))
   }))
 }
@@ -123,16 +126,3 @@ variable "azure_bgp_peer_ip2" {
   default = null
   description = "APIPA address para o segundo ip_configuration (active-active + BGP)"
 }
-/*
-variable "connection_mode" {
-  type        = string
-  default     = "Default"
-  description = "Connection mode: Default, InitiatorOnly, or ResponderOnly"
-}
-
-variable "dpd_timeout_seconds" {
-  type        = number
-  default     = 45
-  description = "DPD timeout in seconds"
-}
-*/
