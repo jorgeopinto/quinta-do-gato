@@ -9,6 +9,7 @@ env:
   ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
   TF_VAR_AWS_KEY_PUB: ${{secrets.TF_VAR_AWS_KEY_PUB}}
   TF_VAR_AZURE_KEY_PUB: ${{secrets.TF_VAR_AZURE_KEY_PUB}}
+  TF_VAR_VPN_KEY: ${{secrets.TF_VAR_VPN_KEY}}
 
 jobs:
   apply_azure:
