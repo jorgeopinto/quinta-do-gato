@@ -9,6 +9,7 @@ env:
   ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
   TF_VAR_AWS_KEY_PUB: ${{secrets.TF_VAR_AWS_KEY_PUB}}
   TF_VAR_AZURE_KEY_PUB: ${{secrets.TF_VAR_AZURE_KEY_PUB}}
+  TF_VAR_VPN_KEY: ${{secrets.TF_VAR_VPN_KEY}}
 
 jobs:
   plan_azure:
@@ -30,5 +31,14 @@ jobs:
         terraform validate
         terraform plan
       working-directory: environments/dev/azure
+    - name: Debug secret presence
+      run: |
+        if [ -z "$TF_VAR_VPN_KEY" ]; then
+          echo "SECRET ESTÁ VAZIO"
+        else
+          echo "SECRET EXISTE (comprimento: ${#TF_VAR_VPN_KEY})"
+        fi
+      env:
+        TF_VAR_VPN_KEY: ${{ secrets.TF_VAR_VPN_KEY }}
 
   
