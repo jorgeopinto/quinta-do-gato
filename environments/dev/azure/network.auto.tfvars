@@ -94,7 +94,7 @@ hubs = {
             access                     = "Allow"
             protocol                   = "*"
             source_port_range          = "*" # usar * (any) só em single
-            destination_port_ranges     = ["*"]
+            destination_port_ranges     = ["0-65535"]
             source_address_prefixes     = [
                 "Any"
             ]
