@@ -1,13 +1,13 @@
 vpn_s2s = {
   hub1 = {
-    enabled              = true
+    enabled              = false
 
     #VPN Gateway
     type                 = "Vpn"
     vpn_type             = "RouteBased"
-    active_active        = true 
+    active_active        = false 
     
-    enable_bgp           = true
+    enable_bgp           = false
     azure_bgp_asn     = 65515
     #Usar APIPA: Azure reserved APIPA range: [169.254.21.0, 169.254.22.255]
     azure_bgp_peer_ip = "169.254.21.1"
@@ -48,23 +48,23 @@ vpn_s2s = {
       # --- Phase 2 (IPsec) ---
           ipsec_encryption = "AES256"
           ipsec_integrity  = "SHA256"
-          pfs_group        = "PFS2048"
+          pfs_group        = "PFS24"
 
       # Lifetimes
-          sa_lifetime_seconds  = 29000
+          sa_lifetime_seconds  = 27000
           sa_datasize_kilobytes = 102400000
 
       #connection mode
           #Default -> qualquer dos lados pode iniciar
           #InitiatorOnly -> Azure inicia o tunnel
           #ResponderOnly -> Azure apenas responde, nunca inicia
-          connection_mode      = "ResponderOnly"
+          connection_mode      = "Default"
           # de 5 a 240 segundos
-          dpd_timeout_seconds  = 100    
+          dpd_timeout_seconds  = 45    
     
     } 
       }
-
+/*
       acola = {
         onprem_public_ip     = "90.10.10.10"
         onprem_address_space = [
@@ -73,13 +73,14 @@ vpn_s2s = {
         onprem_bgp_asn        = 65002
         onprem_bgp_peer_ip    = "10.10.0.1"
         
-        shared_key = "CHAVE_SUPER_SECRETA_2"
+        
 
 
       # Sem ipsec_policy = usa os defaults do Azure
         ipsec_policy = null
 
       }
+*/
     }  
   }
 }
