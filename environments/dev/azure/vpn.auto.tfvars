@@ -95,6 +95,10 @@ pfs_group: ECP256, ECP384, PFS1, PFS2, PFS14, PFS24, PFS2048, PFSMM, None
 
 valores default? 
 
-
+Secrets do github
+{
+  "siteA": "chave123",
+  "siteB": "chave456"
+}
 
 */

@@ -390,13 +390,20 @@ module "vpn_s2s" {
 
   # Multi-site
   #sites = each.value.sites
+  /*
   sites = {
     for site_key, site_cfg in each.value.sites :
     site_key => merge(site_cfg, {
       shared_key = var.VPN_KEY[site_key]  # ← injeta aqui
     })
   }
-  
+  */
+  sites = {
+  for site_key, site_cfg in var.vpn_s2s.hub1.sites :
+  site_key => merge(site_cfg, {
+    shared_key = var.VPN_KEY[site_key]
+  })
+}
 
   depends_on = [module.hub_vnet]
 }
