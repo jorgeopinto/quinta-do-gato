@@ -123,7 +123,7 @@ variable "azure_bgp_peer_ip2" {
   default = null
   description = "APIPA address para o segundo ip_configuration (active-active + BGP)"
 }
-
+/*
 variable "connection_mode" {
   type        = string
   default     = "Default"
@@ -135,3 +135,4 @@ variable "dpd_timeout_seconds" {
   default     = 45
   description = "DPD timeout in seconds"
 }
+*/

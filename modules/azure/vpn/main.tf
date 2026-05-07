@@ -128,8 +128,8 @@ resource "azurerm_virtual_network_gateway_connection" "s2s" {
    # Ativa BGP na Connection quando enable_bgp = true no .tfvars
   bgp_enabled = var.enable_bgp
 
-  connection_mode     = var.connection_mode
-  dpd_timeout_seconds = var.dpd_timeout_seconds 
+  connection_mode     = try(each.value.ipsec_policy.connection_mode, "Default")
+  dpd_timeout_seconds = try(each.value.ipsec_policy.dpd_timeout_seconds, 45)
 
   # APIPA do lado on‑prem (necessário para BGP)
   dynamic "custom_bgp_addresses" {
