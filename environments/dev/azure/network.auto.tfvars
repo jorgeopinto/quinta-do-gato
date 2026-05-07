@@ -59,6 +59,7 @@ hubs = {
       {
         name             = "snet-NVA"
         address_prefixes = ["10.1.2.0/24"]
+        /*
         nsg_rules = [
           {
             name                       = "allow-ssh-inbound"
@@ -103,6 +104,7 @@ hubs = {
           }
 
         ]
+        */
         /*
         propagate_gateway_routes = true  # NÃO propagar rotas do gateway. Só letra minuscula
         udr_routes = [
