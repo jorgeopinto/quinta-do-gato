@@ -96,9 +96,9 @@ hubs = {
             source_port_range          = "*" # usar * (any) só em single
             destination_port_ranges     = ["0-65535"]
             source_address_prefixes     = [
-                "0.0.0.0/0"
+                "10.1.2.0/24"
             ]
-            destination_address_prefix = "10.1.2.0/24"
+            destination_address_prefix = "192.168.10.0/24"
 
           }
 
