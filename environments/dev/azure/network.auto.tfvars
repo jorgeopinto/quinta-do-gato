@@ -88,6 +88,7 @@ hubs = {
             destination_address_prefix = "*"
           }
         ]
+        /*
         propagate_gateway_routes = true  # NÃO propagar rotas do gateway. Só letra minuscula
         udr_routes = [
           {
@@ -102,6 +103,7 @@ hubs = {
             next_hop_type  = "VirtualNetworkGateway"
           }
         ]
+        */
       }
     ] 
   }
