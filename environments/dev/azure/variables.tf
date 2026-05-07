@@ -253,7 +253,7 @@ variable "vpn_s2s" {
     sites = map(object({
       onprem_public_ip     = string
       onprem_address_space = list(string)
-      shared_key           = string
+      shared_key           = optional(string)
 
       # BGP opcional
       onprem_bgp_asn     = optional(number)
