@@ -70,7 +70,8 @@ hubs = {
             destination_port_ranges     = ["22", "443", "80"]
             source_address_prefixes     = [
                 "85.241.235.71/32",
-                "85.241.235.72/32"
+                "85.241.235.72/32",
+                "192.168.10.0/24"
             ]
             destination_address_prefix = "10.1.2.0/24"
 
