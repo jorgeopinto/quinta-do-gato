@@ -58,9 +58,9 @@ vpn_s2s = {
           #Default -> qualquer dos lados pode iniciar
           #InitiatorOnly -> Azure inicia o tunnel
           #ResponderOnly -> Azure apenas responde, nunca inicia
-          connection_mode      = "InitiatorOnly"
+          connection_mode      = "ResponderOnly"
           # de 5 a 240 segundos
-          dpd_timeout_seconds  = 30     
+          dpd_timeout_seconds  = 100    
     
     } 
       }
