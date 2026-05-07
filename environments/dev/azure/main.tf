@@ -389,8 +389,13 @@ module "vpn_s2s" {
   azure_bgp_peer_ip2 = each.value.azure_bgp_peer_ip2
 
   # Multi-site
-  sites = each.value.sites
-
+  #sites = each.value.sites
+  sites = {
+    for site_key, site_cfg in each.value.sites :
+    site_key => merge(site_cfg, {
+      shared_key = var.VPN_KEY[site_key]  # ← injeta aqui
+    })
+  }
   
 
   depends_on = [module.hub_vnet]

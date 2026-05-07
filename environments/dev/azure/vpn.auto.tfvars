@@ -35,8 +35,7 @@ vpn_s2s = {
         
         onprem_bgp_asn        = 65001
         onprem_bgp_peer_ip    = "192.168.0.1"
-        
-        shared_key = "CHAVE_SUPER_SECRETA_1"
+      
 
         ipsec_policy = {
       # --- Phase 1 (IKE) ---

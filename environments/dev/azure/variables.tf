@@ -216,6 +216,12 @@ variable "spoke_virtual_machines" {
 # declarar variaveis a usar na VPN 
 # ─────────────────────────────────────────
 
+variable "VPN_KEY" {
+  description = "Shared keys por site VPN"
+  type        = map(string)
+  sensitive   = true  
+}
+
 variable "vpn_s2s" {
   description = "Configuração de VPN S2S por hub"
   type = map(object({
