@@ -30,8 +30,7 @@ vpn_s2s = {
       aqui = {
         onprem_public_ip     = "85.241.235.71"
         onprem_address_space = [
-          "192.168.0.0/24",
-          "192.168.1.0/24"
+          "192.168.10.0/24"
         ]
         
         onprem_bgp_asn        = 65001
