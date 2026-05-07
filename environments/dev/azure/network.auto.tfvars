@@ -86,7 +86,22 @@ hubs = {
             destination_port_range     = "*"
             source_address_prefix      = "Internet"
             destination_address_prefix = "*"
+          },
+          {
+            name                       = "allow-ssh-Outbound"
+            priority                   = 100
+            direction                  = "Outbound"
+            access                     = "Allow"
+            protocol                   = "ICPMv4"
+            source_port_range          = "*" # usar * (any) só em single
+            destination_port_ranges     = ["*"]
+            source_address_prefixes     = [
+                "Any"
+            ]
+            destination_address_prefix = "10.1.2.0/24"
+
           }
+
         ]
         /*
         propagate_gateway_routes = true  # NÃO propagar rotas do gateway. Só letra minuscula
