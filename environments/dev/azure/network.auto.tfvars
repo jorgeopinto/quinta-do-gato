@@ -242,7 +242,7 @@ spokes = {
   # ── Spoke 3: compute- storage - kubernets ───────────────────
   
   spoke3 = {
-    hub = "hub2"
+    hub = "hub1"
     resource_group_name = "rg-spoke-compute"
     vnet_name           = "vnet-spoke-compute"
     address_space       = "10.200.0.0/16"
