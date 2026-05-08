@@ -59,7 +59,7 @@ hubs = {
       {
         name             = "snet-NVA"
         address_prefixes = ["10.1.2.0/24"]
-        /*
+        
         nsg_rules = [
           {
             name                       = "allow-ssh-inbound"
@@ -88,6 +88,7 @@ hubs = {
             source_address_prefix      = "Internet"
             destination_address_prefix = "*"
           },
+          /*
           {
             name                       = "allow-ssh-Outbound"
             priority                   = 100
