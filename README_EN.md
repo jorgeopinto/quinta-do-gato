@@ -61,10 +61,15 @@ modules/azure/
 │       ├── main.tf
 │       ├── variables.tf
 │       └── outputs.tf
-└── compute/
+├── compute/
+|   ├── main.tf
+|   ├── variables.tf
+|   └── outputs.tf
+└── vpn/
     ├── main.tf
     ├── variables.tf
     └── outputs.tf
+
 ```
 
 ---
@@ -306,3 +311,65 @@ spoke_virtual_machines = {
     }
   }
 ```
+## VPN -> vpn.auto.tfvars
+In this file we add VPNs to the Hubs. It’s designed only for route‑based VPNs (which makes more sense to me), and based on the infrastructure defined in network.tfvars we choose which Hub we want the VPN to belong to. It will automatically be placed in the subnet dedicated to VPNs.\
+
+We can enable or disable the VPN, choose whether to use BGP or not, set it as Active‑Passive or Active‑Active, configure the Phase I (IKE) and Phase II (IPsec) parameters, and of course, for a VPN Gateway, define as many remote sites as we need.\ 
+
+```hcl
+vpn_s2s = {
+  hub1 = {  -----> choose the HUB
+    enabled              = false ----> have VPN or NOT
+    (...)
+    active_active        = false -----> A-A ou A-P 
+    
+    enable_bgp           = false -----> BGP or NOT
+    
+    (...)
+
+    sku                  = "VpnGw1AZ"
+    
+    (...)
+    
+    # Vários sites on‑prem
+    sites = {
+      Lisboa = { ---> for a on-premisses site
+        
+            (...)
+        ipsec_policy = { -> choose PH1 and PHII settings
+      # --- Phase 1 (IKE) ---
+          ike_encryption   = "AES256"
+          ike_integrity    = "SHA256"
+          dh_group         = "DHGroup14"
+
+      # --- Phase 2 (IPsec) ---
+          ipsec_encryption = "AES256"
+          ipsec_integrity  = "SHA256"
+          pfs_group        = "None"
+
+      (...)    
+    } 
+      }
+/*
+      Porto = { -------> for another ON-premisses site
+        onprem_public_ip     = "90.10.10.10"
+        onprem_address_space = [
+          "10.10.0.0/24"
+        ]
+        onprem_bgp_asn        = 65002
+        onprem_bgp_peer_ip    = "10.10.0.1"
+        
+        
+
+
+      # Sem ipsec_policy = use Azure defaults
+        ipsec_policy = null  -----> If choose in this way, will configure Azure defaults
+
+      }
+*/
+    }  
+  }
+}
+```
+
+## For the public repository, this is it… The private one has more stuff in it 🙂
