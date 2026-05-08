@@ -42,7 +42,8 @@ environments/dev/azure/
 ├── variables.tf             # Variáveis raiz
 ├── outputs.tf               # Outputs raiz
 ├── network.auto.tfvars      # Variáveis para construção da rede
-└── compute.auto.tfvars      # Variáveis para criação e integração com a rede
+├── compute.auto.tfvars      # Variáveis para criação virtual machines (apenas linux) e integração com a rede
+└── vpn.auto.tfvars          # Variàveis para criação de VPN (apenas route-based), A-P e A-A com opção para BGP. 
 
 modules/azure/
 ├── network/                 # Módulo de rede — VNet, Subnets e NSGs
@@ -61,7 +62,11 @@ modules/azure/
 │       ├── main.tf
 │       ├── variables.tf
 │       └── outputs.tf
-└── compute/
+├── compute/
+│    ├── main.tf
+│    ├── variables.tf
+│    └── outputs.tf
+└── vpn/
     ├── main.tf
     ├── variables.tf
     └── outputs.tf
@@ -311,3 +316,64 @@ spoke_virtual_machines = {
     }
   }
 ```
+## VPN -> vpn.auto.tfvars
+Neste ficheiro adicionamo simplementamos um VPN, apenas desenhado para se route-based (que para mim faz mais sentido) e confrontando com a infra do network.tfvars escolhemos qual o HUB onde queremos ter a vpn, que automaticamente será alojada na subnet destinada a VPN's.\
+Podemos abilitar a vpn ou não, ter BGP ou não, ser Active-Passive ou Active-active, e escolher os parametro de PhaseI(IKE) e PhaseII(IPSEC)
+
+```hcl
+vpn_s2s = {
+  hub1 = {  -----> escolha do HUB
+    enabled              = false ----> Ter VPN ou não
+    (...)
+    active_active        = false -----> A-A ou A-P 
+    
+    enable_bgp           = false -----> BGP ou não
+    
+    (...)
+
+    sku                  = "VpnGw1AZ"
+    
+    (...)
+    
+    # Vários sites on‑prem
+    sites = {
+      Lisboa = { ---> para um site on-prem
+        
+            (...)
+        ipsec_policy = { -> escolher defenições de PHI e PHII
+      # --- Phase 1 (IKE) ---
+          ike_encryption   = "AES256"
+          ike_integrity    = "SHA256"
+          dh_group         = "DHGroup14"
+
+      # --- Phase 2 (IPsec) ---
+          ipsec_encryption = "AES256"
+          ipsec_integrity  = "SHA256"
+          pfs_group        = "None"
+
+      (...)    
+    } 
+      }
+/*
+      Porto = { -------> Para outro site On-prem
+        onprem_public_ip     = "90.10.10.10"
+        onprem_address_space = [
+          "10.10.0.0/24"
+        ]
+        onprem_bgp_asn        = 65002
+        onprem_bgp_peer_ip    = "10.10.0.1"
+        
+        
+
+
+      # Sem ipsec_policy = usa os defaults do Azure
+        ipsec_policy = null  -----> se ficar assim escolhe as defeniç~es default de Azure
+
+      }
+*/
+    }  
+  }
+}
+```
+
+## Paraq repositorio Public è isto... O privado tem mais :)
