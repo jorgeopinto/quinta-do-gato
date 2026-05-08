@@ -103,9 +103,10 @@ hubs = {
             destination_address_prefix = "192.168.10.0/24"
 
           }
+          */
 
         ]
-        */
+        
         /*
         propagate_gateway_routes = true  # NÃO propagar rotas do gateway. Só letra minuscula
         udr_routes = [
