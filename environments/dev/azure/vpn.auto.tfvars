@@ -1,6 +1,6 @@
 vpn_s2s = {
   hub1 = {
-    enabled              = false
+    enabled              = true
 
     #VPN Gateway
     type                 = "Vpn"
@@ -46,7 +46,7 @@ vpn_s2s = {
       # --- Phase 2 (IPsec) ---
           ipsec_encryption = "AES256"
           ipsec_integrity  = "SHA256"
-          pfs_group        = "PFS24"
+          pfs_group        = "None"
 
       # Lifetimes
           sa_lifetime_seconds  = 27000
