@@ -48,7 +48,7 @@ spoke_virtual_machines = {
 
       #ssh_public_key -> já é injectado no TF_VAR do github
       admin_username = "jorge"
-      public_ip = false
+      public_ip = true
     
 
     }
