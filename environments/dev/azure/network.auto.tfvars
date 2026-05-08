@@ -240,7 +240,7 @@ spokes = {
   }
   */
   # ── Spoke 3: compute- storage - kubernets ───────────────────
-  /*
+  
   spoke3 = {
     hub = "hub2"
     resource_group_name = "rg-spoke-compute"
@@ -277,7 +277,7 @@ spokes = {
             destination_address_prefix = "*"
           }
         ]
-        propagate_gateway_routes = false  # NÃO propagar rotas do gateway
+        propagate_gateway_routes = true  # NÃO propagar rotas do gateway
         udr_routes = [
           {
             name                   = "route-to-firewall"
@@ -305,7 +305,7 @@ spokes = {
       }
     ]
   }
-  */
+  
 
   # ── Spoke 4: Shared Services ───────────────────
   /*
@@ -366,6 +366,6 @@ spokes = {
   #Permite que a VNet local ofereça o seu gateway VPN/ExpressRoute à outra VNet. True do lado do HUB
   spoke_to_hub_allow_gateway_transit        = false
   
-  #Permite que a VNet local use o gateway da VNet remota. Só pode ser usada de um dos lados como true, clarament do lado oda spokes.
-  spoke_to_hub_use_remote_gateways          = false
+  #Permite que a VNet local use o gateway da VNet remota. Só pode ser usada de um dos lados como true, claramente do lado das spokes.
+  spoke_to_hub_use_remote_gateways          = true
   
