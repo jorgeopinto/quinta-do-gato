@@ -282,8 +282,7 @@ spokes = {
           {
             name                   = "route-to-firewall"
             address_prefix         = "0.0.0.0/0"
-            next_hop_type          = "VirtualAppliance"
-            next_hop_in_ip_address = "10.1.2.4"
+            next_hop_type          = "Internet"
           },
           {
             name           = "route-to-onprem"
