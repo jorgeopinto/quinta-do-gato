@@ -318,7 +318,7 @@ spoke_virtual_machines = {
 ```
 ## VPN -> vpn.auto.tfvars
 Neste ficheiro adicionamo simplementamos um VPN, apenas desenhado para se route-based (que para mim faz mais sentido) e confrontando com a infra do network.tfvars escolhemos qual o HUB onde queremos ter a vpn, que automaticamente será alojada na subnet destinada a VPN's.\
-Podemos abilitar a vpn ou não, ter BGP ou não, ser Active-Passive ou Active-active, e escolher os parametro de PhaseI(IKE) e PhaseII(IPSEC)
+Podemos abilitar a vpn ou não, ter BGP ou não, ser Active-Passive ou Active-active, escolher os parametro de PhaseI(IKE) e PhaseII(IPSEC) e claro para um VPN Gateway ter os sites que quisermos. 
 
 ```hcl
 vpn_s2s = {
